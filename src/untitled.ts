@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 import fm from "front-matter";
 import path from "path";
 import React from "react";
-import { MarkdownContent } from "./markdown-render";
+import { MarkdownContent } from "localify/src/markdown-render";
 
 class CMS {
     private friend_links: FriendLink[] = [];
