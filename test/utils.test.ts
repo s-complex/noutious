@@ -1,6 +1,8 @@
+import { describe, expect, it } from 'vitest'
 import { scan } from '../src/utils'
 
-it('test scan markdown files', async () => {
-  expect(await scan('./packages/nuxt/posts'))
-    .toStrictEqual(['hello-world.md'])
+describe('markdown File Scanning', () => {
+  it('should scan markdown files', async () => {
+    expect(await scan('./packages/nuxt/posts')).toStrictEqual(['hello-world.md'])
+  })
 })
