@@ -1,8 +1,11 @@
-import { globSync } from 'tinyglobby'
+import { glob } from 'glob'
 
-export function scanMarkdownSync(directory: string): string[] {
+export async function scan(path: string) {
   const pattern = ['**/*.md']
   const ignore = ['**/*.d.ts']
 
-  return globSync(pattern, { cwd: directory, ignore })
+  return await glob(pattern, {
+    cwd: path,
+    ignore,
+  })
 }
