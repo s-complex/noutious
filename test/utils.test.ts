@@ -1,4 +1,4 @@
-import { scan } from '../src/scan'
+import { scan } from '../src/utils'
 
 it('test scan markdown files', async () => {
   expect(await scan('./packages/nuxt/posts'))
