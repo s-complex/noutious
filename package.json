@@ -1,7 +1,8 @@
 {
   "name": "localify",
+  "type": "module",
   "version": "0.0.1-alpha",
-  "packageManager": "pnpm@10.0.0+sha512.b8fef5494bd3fe4cbd4edabd0745df2ee5be3e4b0b8b08fa643aa3e4c6702ccc0f00d68fa8a8c9858a735a0032485a44990ed2810526c875e416f001b17df12b",
+  "packageManager": "pnpm@10.0.0",
   "description": "A non-fast file-based content manage system driven by Node.js.",
   "license": "MIT",
   "exports": {
@@ -13,6 +14,9 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "build": "unbuild",
     "dev": "unbuild --stub",
@@ -22,7 +26,8 @@
   },
   "dependencies": {
     "consola": "^3.3.3",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.2.0",
+    "gray-matter": "^4.0.3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.13.0",
