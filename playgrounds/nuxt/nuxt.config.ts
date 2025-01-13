@@ -10,10 +10,10 @@ export default defineNuxtConfig({
     plugins: [
       nodePolyfills({
         overrides: {
-          fs: 'memfs'
+          fs: 'memfs',
         },
-        protocolImports: true
-      })
-    ]
-  }
+        protocolImports: true,
+      }),
+    ],
+  },
 })

@@ -1,37 +1,31 @@
 {
   "generator": "Localify",
   "posts": {
-    "localify:create-a-blog-with-localify.md": {
+    "create-a-blog-with-localify": {
       "source": "D:\\Projects\\node\\localify\\playgrounds\\next\\posts\\create-a-blog-with-localify.md",
-      "raw": "---\r\ntitle: Create a blog with Localify\r\ndate: 2025-01-12 14:10:23\r\ncategories: guide\r\ntags:\r\n- blog\r\n- localify\r\n---",
       "frontmatter": {
         "title": "Create a blog with Localify",
         "date": "2025-01-12T14:10:23.000Z",
         "categories": "guide",
         "tags": ["blog", "localify"]
       },
-      "key": "localify:create-a-blog-with-localify.md",
-      "content": "",
       "date": "2025-01-12T14:10:23.000Z",
-      "updated": "2025-01-12T06:05:49.097Z",
+      "updated": "2025-01-13T12:44:40.629Z",
       "title": "Create a blog with Localify",
-      "excerpt": ""
+      "excerpt": "\r\n123\r\n\r\n"
     },
-    "localify:hello-world.md": {
+    "hello-world": {
       "source": "D:\\Projects\\node\\localify\\playgrounds\\next\\posts\\hello-world.md",
-      "raw": "---\r\ntitle: Hello World\r\ndate: 2025-01-12 14:03:27\r\ncategories: default\r\ntags:\r\n- blog\r\n- localify\r\n- next.js\r\n---\r\n\r\nWelcome to use Localify! You can simply creating a blog with any front-end framework and this integration.",
       "frontmatter": {
         "title": "Hello World",
         "date": "2025-01-12T14:03:27.000Z",
         "categories": "default",
         "tags": ["blog", "localify", "next.js"]
       },
-      "key": "localify:hello-world.md",
-      "content": "\r\nWelcome to use Localify! You can simply creating a blog with any front-end framework and this integration.",
       "date": "2025-01-12T14:03:27.000Z",
-      "updated": "2025-01-12T06:04:52.778Z",
+      "updated": "2025-01-13T12:40:16.664Z",
       "title": "Hello World",
-      "excerpt": ""
+      "excerpt": "\r\nWelcome to use Localify! You can simply creating a blog with any front-end framework and this integration.\r\n\r\n"
     }
   },
   "tag": {
