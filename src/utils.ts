@@ -82,7 +82,7 @@ export async function processCategoryData(markdownFiles: string[], basePath: str
   return categories
 }
 
-export async function processSinglePostData(post: Post, key: string) {
+export async function processSinglePostData(post: Post) {
   const postFile = await readFile(post.source, 'utf-8')
   const { content: postContent } = matter(postFile);
   return {

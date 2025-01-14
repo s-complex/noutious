@@ -1,10 +1,11 @@
 import type { Env, Result } from './types'
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs'
 import { join, sep } from 'node:path'
 import { consola } from 'consola'
 import { processMarkdown } from './processMarkdown'
+import { processSinglePostData } from './utils'
 
-class Localify {
+class Noutious {
   private baseDir: string
   private sourceDir: string
   private env: Env
@@ -27,11 +28,15 @@ class Localify {
     try {
       if (this.env.localDb) {
         const dbFilePath = join(this.baseDir, 'db.json')
-        consola.log(dbFilePath)
         try {
-          if (!existsSync(dbFilePath)) {
+          try {
+            if (existsSync(dbFilePath)) {
+              unlinkSync(dbFilePath)
+            }            
             this.data = await processMarkdown(this.sourceDir)
             writeFileSync(dbFilePath, JSON.stringify(this.data))
+          } catch (e) {
+            consola.error(e)
           }
           const dbData = readFileSync(dbFilePath, 'utf-8')
           this.data = JSON.parse(dbData)
@@ -79,11 +84,11 @@ class Localify {
       return null
     }
     if (this.data.posts[key]) {
-      return this.data.posts[key]
+      processSinglePostData(this.data.posts[key])
     } else {
       return null
     }
   }
 }
 
-export default Localify
+export default Noutious

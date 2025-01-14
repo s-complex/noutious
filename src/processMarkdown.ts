@@ -1,4 +1,5 @@
 import type { Result } from './types'
+import pkg from "../package.json";
 import { processCategoryData, processPostsData, processTagData, scan } from './utils'
 
 export async function processMarkdown(basePath: string): Promise<Result> {
@@ -9,7 +10,7 @@ export async function processMarkdown(basePath: string): Promise<Result> {
   const category = await processCategoryData(markdownFiles, basePath)
 
   const result: Result = {
-    generator: 'Localify',
+    generator: `${pkg.name} v${pkg.version}`,
     posts,
     tag,
     category,
