@@ -1,15 +1,22 @@
 {
   "name": "noutious",
   "type": "module",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "packageManager": "pnpm@10.0.0",
-  "description": "A non-fast file-based content manage system driven by Node.js.",
+  "description": "A simple file-based content manage system driven by Node.js.",
   "license": "MIT",
+  "homepage": "https://github.com/s-complex/noutious",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/s-complex/noutious.git"
+  },
+  "keywords": ["cms"],
   "exports": {
     ".": {
       "import": "./dist/index.mjs"
     }
   },
+  "main": "./dist",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
