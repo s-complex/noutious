@@ -1,6 +1,8 @@
 export interface Post {
   source: string
-  frontmatter: Record<string, any>
+  frontmatter: {
+    [key: string]: any
+  }
   date: Date | string
   updated: Date | string
   title: string
