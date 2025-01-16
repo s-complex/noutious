@@ -40,6 +40,8 @@ export async function processPostsData(
       updated: (await stat(filePath)).mtime.toISOString(),
       title: title || '',
       excerpt: postExcerpt || '',
+      categories,
+      tags
     }
     const key = parse(file).name;
     posts[key] = post;

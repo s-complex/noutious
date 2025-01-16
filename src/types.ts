@@ -1,11 +1,13 @@
 export interface Post {
   source: string
+  title: string
+  date: Date | string
+  updated: Date | string
+  categories: string
+  tags: string | string[]
   frontmatter: {
     [key: string]: any
   }
-  date: Date | string
-  updated: Date | string
-  title: string
   excerpt: string
 }
 
