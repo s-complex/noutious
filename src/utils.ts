@@ -17,6 +17,7 @@ export async function scan(path: string) {
 export async function processPostsData(
   markdownFiles: string[],
   basePath: string,
+  excerptMark: string
 ) {
   const posts: Record<string, Post> = {};
   for (const file of markdownFiles) {
@@ -24,7 +25,7 @@ export async function processPostsData(
     const fileContent = await readFile(filePath, 'utf-8')
     const { data: frontmatterData, content: postContent } = matter(fileContent)
     let postExcerpt = ""
-    const moreIndex = postContent.indexOf("<!--more-->")
+    const moreIndex = postContent.indexOf(excerptMark)
     if (moreIndex !== -1) {
       postExcerpt = postContent.slice(0, moreIndex)
     }

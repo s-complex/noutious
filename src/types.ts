@@ -16,8 +16,15 @@ export interface Result {
   category: Record<string, string[]>
 }
 
-export interface Env {
+export interface Args {
   localDb?: boolean
   draft?: boolean
   excerpt?: string
+}
+
+export interface Env {
+  args: Args;
+  localDb: boolean;
+  draft: boolean;
+  excerpt: string
 }
