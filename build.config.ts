@@ -5,4 +5,5 @@ export default defineBuildConfig({
   outDir: 'dist',
   declaration: true,
   externals: ['tinyglobby', 'fdir', 'picomatch'],
+  minify: true
 })

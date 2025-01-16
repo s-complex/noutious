@@ -24,17 +24,21 @@ export async function processPostsData(
     const filePath = join(basePath, file)
     const fileContent = await readFile(filePath, 'utf-8')
     const { data: frontmatterData, content: postContent } = matter(fileContent)
+
+    const { title, date, categories, tags, ...otherValue } = frontmatterData;
+
     let postExcerpt = ""
     const moreIndex = postContent.indexOf(excerptMark)
     if (moreIndex !== -1) {
       postExcerpt = postContent.slice(0, moreIndex)
     }
+
     const post: Post = {
       source: filePath,
-      frontmatter: frontmatterData,
-      date: frontmatterData.date.toISOString(),
+      frontmatter: otherValue,
+      date: date || '',
       updated: (await stat(filePath)).mtime.toISOString(),
-      title: frontmatterData.title || '',
+      title: title || '',
       excerpt: postExcerpt || '',
     }
     const key = parse(file).name;
