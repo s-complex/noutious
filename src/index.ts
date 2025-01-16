@@ -18,8 +18,8 @@ class Noutious {
     this.sourceDir = join(base_dir, 'posts') + sep
     this.env = {
       localDb: env.localDb || false,
-      draft: env.localDb || false,
-      excerpt: env.localDb || false,
+      draft: env.draft || false,
+      excerpt: env.excerpt || "<!--more-->",
     }
     this.data = null
   }

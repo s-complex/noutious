@@ -19,5 +19,5 @@ export interface Result {
 export interface Env {
   localDb?: boolean
   draft?: boolean
-  excerpt?: boolean | string
+  excerpt?: string
 }
