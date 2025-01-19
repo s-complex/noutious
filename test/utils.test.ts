@@ -1,6 +1,6 @@
 import { stat } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import { processPostsData, scan } from "../src/utils";
+import { processPostsData, processTagData, scan } from "../src/utils";
 
 describe("utils", () => {
   describe("scan markdown files", () => {
@@ -30,8 +30,8 @@ describe("utils", () => {
             await stat("./test/posts/getting-started.md")
           ).mtime.toISOString(),
           excerpt: "Some ways to use Noutious.",
-          tags: undefined,
-          categories: undefined,
+          tags: ["noutious", "guide"],
+          categories: "guide",
         },
         "hello-world": {
           title: "Hello World",
@@ -42,10 +42,16 @@ describe("utils", () => {
             await stat("./test/posts/hello-world.md")
           ).mtime.toISOString(),
           excerpt: "Welcome to use Noutious!",
-          tags: undefined,
-          categories: undefined,
+          tags: "noutious",
+          categories: "default",
         },
       });
     });
   });
+
+  describe("processTagData", () => {
+    it("should collect and process tag data", async () => {
+      expect(await processTagData(["getting-started.md", "hello-world.md"], "./test/posts")).toStrictEqual(["noutious", "guide"]);
+    })
+  })
 });
