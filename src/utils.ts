@@ -56,7 +56,7 @@ export async function processTagData(markdownFiles: string[], basePath: string) 
     const fileContent = await readFile(filePath, 'utf-8')
     const { data: frontmatterData } = matter(fileContent)
     if (frontmatterData.tags && Array.isArray(frontmatterData.tags)) {
-      frontmatterData.tags.forEach((tag) => {
+      frontmatterData.tags.forEach((tag: string) => {
         tags.add(tag)
       })
     }
@@ -65,23 +65,16 @@ export async function processTagData(markdownFiles: string[], basePath: string) 
 }
 
 export async function processCategoryData(markdownFiles: string[], basePath: string) {
-  const categories: Record<string, string[]> = {}
+  const categories: Set<string> = new Set()
   for (const file of markdownFiles) {
     const filePath = join(basePath, file)
     const fileContent = await readFile(filePath, 'utf-8')
     const { data: frontmatterData } = matter(fileContent)
-    if (frontmatterData.category && Array.isArray(frontmatterData.category)) {
-      frontmatterData.category.forEach((category) => {
-        if (categories[category]) {
-          categories[category].push(filePath)
-        }
-        else {
-          categories[category] = [filePath]
-        }
-      })
+    if (frontmatterData.categories) {
+      categories.add(frontmatterData.categories)
     }
   }
-  return categories
+  return Array.from(categories)
 }
 
 export async function processSinglePostData(post: Post) {

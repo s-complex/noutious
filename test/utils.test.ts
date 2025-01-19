@@ -1,6 +1,6 @@
 import { stat } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import { processPostsData, processTagData, scan } from "../src/utils";
+import { processCategoryData, processPostsData, processTagData, scan } from "../src/utils";
 
 describe("utils", () => {
   describe("scan markdown files", () => {
@@ -52,6 +52,11 @@ describe("utils", () => {
   describe("processTagData", () => {
     it("should collect and process tag data", async () => {
       expect(await processTagData(["getting-started.md", "hello-world.md"], "./test/posts")).toStrictEqual(["noutious", "guide"]);
+    })
+  })
+  describe("processCategoryData", () => {
+    it("should collect and process category data", async () => {
+      expect(await processCategoryData(["getting-started.md", "hello-world.md"], "./test/posts")).toStrictEqual(["guide", "default"]);
     })
   })
 });
