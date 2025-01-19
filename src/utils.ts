@@ -30,7 +30,7 @@ export async function processPostsData(
     let postExcerpt = ""
     const moreIndex = postContent.indexOf(excerptMark)
     if (moreIndex !== -1) {
-      postExcerpt = postContent.slice(0, moreIndex)
+      postExcerpt = postContent.slice(0, moreIndex).trim()
     }
 
     const post: Post = {
