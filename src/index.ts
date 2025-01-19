@@ -52,7 +52,7 @@ class Noutious {
     }
   }
 
-  async getPosts(options: GetPostsOptions = {}): Promise<Post[] | null> {
+  async getPosts(options: GetPostsOptions = {}): Promise<Record<string, Post> | null> {
     const { date, include } = options;
 
     if (!this.data) {
@@ -60,28 +60,33 @@ class Noutious {
       return null;
     }
 
-    let posts: Post[] = Object.values(this.data.posts);
+    // 保留原始 key，获取所有文章对象
+    let posts: Record<string, Post> = this.data.posts;
 
+    // 筛选文章
     if (include && Array.isArray(include)) {
-      posts = posts.filter((post) =>
-        include.some((condition) =>
-          Object.entries(condition).every(([key, value]) =>
-            Array.isArray(post[key as keyof Post])
-              ? (post[key as keyof Post] as string[]).includes(value)
-              : post[key as keyof Post] === value
+      posts = Object.fromEntries(
+        Object.entries(posts).filter(([_, post]) =>
+          include.some((condition) =>
+            Object.entries(condition).every(([key, value]) =>
+              Array.isArray(post[key as keyof Post])
+                ? (post[key as keyof Post] as string[]).includes(value)
+                : post[key as keyof Post] === value
+            )
           )
         )
       );
     }
 
+    // 按日期排序
     if (date) {
-      posts.sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
-        return date === -1
-          ? dateB.getTime() - dateA.getTime()
-          : dateA.getTime() - dateB.getTime();
-      });
+      posts = Object.fromEntries(
+        Object.entries(posts).sort(([, postA], [, postB]) => {
+          const dateA = new Date(postA.date);
+          const dateB = new Date(postB.date);
+          return date === -1 ? dateB.getTime() - dateA.getTime() : dateA.getTime() - dateB.getTime();
+        })
+      );
     }
 
     return posts;
