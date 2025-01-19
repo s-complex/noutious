@@ -17,17 +17,17 @@ export async function scan(path: string) {
 export async function processPostsData(
   markdownFiles: string[],
   basePath: string,
-  excerptMark: string
+  excerptMark: string,
 ) {
-  const posts: Record<string, Post> = {};
+  const posts: Record<string, Post> = {}
   for (const file of markdownFiles) {
     const filePath = join(basePath, file)
     const fileContent = await readFile(filePath, 'utf-8')
     const { data: frontmatterData, content: postContent } = matter(fileContent)
 
-    const { title, date, categories, tags, ...otherValue } = frontmatterData;
+    const { title, date, categories, tags, ...otherValue } = frontmatterData
 
-    let postExcerpt = ""
+    let postExcerpt = ''
     const moreIndex = postContent.indexOf(excerptMark)
     if (moreIndex !== -1) {
       postExcerpt = postContent.slice(0, moreIndex).trim()
@@ -41,10 +41,10 @@ export async function processPostsData(
       title: title || '',
       excerpt: postExcerpt || '',
       categories,
-      tags
+      tags,
     }
-    const key = parse(file).name;
-    posts[key] = post;
+    const key = parse(file).name
+    posts[key] = post
   }
   return posts
 }
@@ -79,9 +79,9 @@ export async function processCategoryData(markdownFiles: string[], basePath: str
 
 export async function processSinglePostData(post: Post) {
   const postFile = await readFile(post.source, 'utf-8')
-  const { content: postContent } = matter(postFile);
+  const { content: postContent } = matter(postFile)
   return {
     ...post,
-    content: postContent
+    content: postContent,
   }
 }

@@ -1,5 +1,5 @@
 import type { Result } from './types'
-import pkg from "../package.json";
+import pkg from '../package.json'
 import { processCategoryData, processPostsData, processTagData, scan } from './utils'
 
 export async function processMarkdown(basePath: string, excerptMark: string): Promise<Result> {

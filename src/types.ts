@@ -25,8 +25,8 @@ export interface Args {
 }
 
 export interface Env {
-  args: Args;
-  localDb: boolean;
-  draft: boolean;
+  args: Args
+  localDb: boolean
+  draft: boolean
   excerpt: string
 }

@@ -15,16 +15,16 @@ $ pnpm add noutious
 
 Then import it and initialize an instance.
 
-``` js
+```js
 import Noutious from 'noutious'
 
 function initNoutious() {
-    const noutious = new Noutious({
-        localDb: process.env.NODE_ENV === 'production',
-        draft: false,
-        excerpt: ""
-    })
-    return noutious
+  const noutious = new Noutious({
+    localDb: process.env.NODE_ENV === 'production',
+    draft: false,
+    excerpt: ''
+  })
+  return noutious
 }
 ```
 
