@@ -1,6 +1,8 @@
 # Noutious
 
-A simple file-based content manage system driven by [Node.js](https://nodejs.org).
+A simple file-based content manage system driven by [Node.js](https://nodejs.org), inspired by [Hexo](https://hexo.io) and its core [Warehouse](https://github.com/hexojs/warehouse).
+
+> Note: This project is still under development.
 
 ## Quick Start
 
@@ -27,8 +29,6 @@ function initNoutious() {
   return noutious
 }
 ```
-
-> Note: Custom excerpt mark is still in development.
 
 ## License
 
