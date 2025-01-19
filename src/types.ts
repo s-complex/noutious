@@ -31,3 +31,8 @@ export interface Env {
   draft: boolean
   excerpt: string
 }
+
+export interface GetPostsOptions {
+  date?: -1 | 1;
+  include?: Array<Record<string, string>>;
+}
