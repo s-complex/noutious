@@ -14,8 +14,8 @@ export interface Post {
 export interface Result {
   generator: string
   posts: Record<string, Post>
-  tag: Record<string, string[]>
-  category: Record<string, string[]>
+  tag: string[]
+  category: string[]
 }
 
 export interface Args {
