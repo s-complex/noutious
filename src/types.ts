@@ -9,6 +9,7 @@ export interface Post {
     [key: string]: any
   }
   excerpt: string
+  content?: string
 }
 
 export interface Result {

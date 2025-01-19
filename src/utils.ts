@@ -1,6 +1,7 @@
 import type { Post } from './types'
 import { readFile, stat } from 'node:fs/promises'
 import { join, parse } from 'node:path'
+import { consola } from 'consola'
 import matter from 'gray-matter'
 import { glob } from 'tinyglobby'
 
@@ -77,11 +78,13 @@ export async function processCategoryData(markdownFiles: string[], basePath: str
   return Array.from(categories)
 }
 
-export async function processSinglePostData(post: Post) {
-  const postFile = await readFile(post.source, 'utf-8')
-  const { content: postContent } = matter(postFile)
-  return {
-    ...post,
-    content: postContent,
+export async function processSinglePostData(post: Post): Promise<Post> {
+  try {
+    const postFile = await readFile(post.source, 'utf-8')
+    const { content: postContent } = matter(postFile)
+    post.content = postContent.replace(/\r\n/g, '\n').trim()
+  } catch (error) {
+    consola.error('Error reading or parsing file:', error)
   }
+  return post
 }

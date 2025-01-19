@@ -86,7 +86,7 @@ class Noutious {
       return null
     }
     if (this.data.posts[key]) {
-      processSinglePostData(this.data.posts[key])
+      return processSinglePostData(this.data.posts[key])
     }
     else {
       return null
