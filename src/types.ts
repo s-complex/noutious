@@ -1,4 +1,4 @@
-export interface Post {
+interface Post {
   source: string
   title: string
   date: Date | string
@@ -12,27 +12,35 @@ export interface Post {
   content?: string
 }
 
-export interface Result {
+interface Result {
   generator: string
   posts: Record<string, Post>
   tag: string[]
   category: string[]
 }
 
-export interface Args {
+interface Args {
   localDb?: boolean
   draft?: boolean
   excerpt?: string
 }
 
-export interface Env {
+interface Env {
   args: Args
   localDb: boolean
   draft: boolean
   excerpt: string
 }
 
-export interface GetPostsOptions {
+interface GetPostsOptions {
   date?: -1 | 1;
   include?: Array<Record<string, string>>;
+}
+
+export type {
+  Args,
+  Env,
+  GetPostsOptions,
+  Post,
+  Result
 }
