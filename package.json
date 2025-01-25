@@ -27,7 +27,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "rolldown -c rolldown.config.ts",
+    "build": "unbuild --minify",
     "dev": "unbuild --stub",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
