@@ -24,7 +24,7 @@ describe('utils', () => {
         'getting-started': {
           title: 'Getting started',
           date: new Date('2025-01-10T00:00:00.000Z'),
-          source: 'test\\posts\\getting-started.md',
+          source: 'test/posts/getting-started.md',
           frontmatter: {},
           updated: (
             await stat('./test/posts/getting-started.md')
@@ -36,7 +36,7 @@ describe('utils', () => {
         'hello-world': {
           title: 'Hello World',
           date: new Date('2025-01-09T00:00:00.000Z'),
-          source: 'test\\posts\\hello-world.md',
+          source: 'test/posts/hello-world.md',
           frontmatter: {},
           updated: (
             await stat('./test/posts/hello-world.md')

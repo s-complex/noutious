@@ -1,8 +1,8 @@
 import type { Post } from './types'
 import { readFile, stat } from 'node:fs/promises'
-import { join, parse } from 'node:path'
 import { consola } from 'consola'
 import matter from 'gray-matter'
+import { join, parse } from 'pathe'
 import { glob } from 'tinyglobby'
 
 export async function scan(path: string) {

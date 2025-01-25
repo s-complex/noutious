@@ -15,7 +15,7 @@ describe('main', () => {
             date: new Date('2025-01-10T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\getting-started.md',
+            source: 'test/posts/getting-started.md',
             tags: ['noutious', 'guide'],
             title: 'Getting started',
             updated: (
@@ -27,7 +27,7 @@ describe('main', () => {
             date: new Date('2025-01-09T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\hello-world.md',
+            source: 'test/posts/hello-world.md',
             tags: 'noutious',
             title: 'Hello World',
             updated: (
@@ -47,7 +47,7 @@ describe('main', () => {
             date: new Date('2025-01-10T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\getting-started.md',
+            source: 'test/posts/getting-started.md',
             tags: ['noutious', 'guide'],
             title: 'Getting started',
             updated: (
@@ -67,7 +67,7 @@ describe('main', () => {
             date: new Date('2025-01-10T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\getting-started.md',
+            source: 'test/posts/getting-started.md',
             tags: ['noutious', 'guide'],
             title: 'Getting started',
             updated: (
@@ -79,7 +79,7 @@ describe('main', () => {
             date: new Date('2025-01-09T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\hello-world.md',
+            source: 'test/posts/hello-world.md',
             tags: 'noutious',
             title: 'Hello World',
             updated: (
@@ -101,7 +101,7 @@ describe('main', () => {
             date: new Date('2025-01-10T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\getting-started.md',
+            source: 'test/posts/getting-started.md',
             tags: ['noutious', 'guide'],
             title: 'Getting started',
             updated: (
@@ -113,7 +113,7 @@ describe('main', () => {
             date: new Date('2025-01-09T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\hello-world.md',
+            source: 'test/posts/hello-world.md',
             tags: 'noutious',
             title: 'Hello World',
             updated: (
@@ -131,7 +131,7 @@ describe('main', () => {
             date: new Date('2025-01-10T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\getting-started.md',
+            source: 'test/posts/getting-started.md',
             tags: ['noutious', 'guide'],
             title: 'Getting started',
             updated: (
@@ -143,7 +143,7 @@ describe('main', () => {
             date: new Date('2025-01-09T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\hello-world.md',
+            source: 'test/posts/hello-world.md',
             tags: 'noutious',
             title: 'Hello World',
             updated: (
@@ -161,7 +161,7 @@ describe('main', () => {
             date: new Date('2025-01-09T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\hello-world.md',
+            source: 'test/posts/hello-world.md',
             tags: 'noutious',
             title: 'Hello World',
             updated: (
@@ -173,7 +173,7 @@ describe('main', () => {
             date: new Date('2025-01-10T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
-            source: 'test\\posts\\getting-started.md',
+            source: 'test/posts/getting-started.md',
             tags: ['noutious', 'guide'],
             title: 'Getting started',
             updated: (
@@ -192,7 +192,7 @@ describe('main', () => {
         date: new Date('2025-01-10T00:00:00.000Z'),
         excerpt: '',
         frontmatter: {},
-        source: 'test\\posts\\getting-started.md',
+        source: 'test/posts/getting-started.md',
         tags: ['noutious', 'guide'],
         title: 'Getting started',
         updated: (

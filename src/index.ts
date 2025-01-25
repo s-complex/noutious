@@ -1,7 +1,7 @@
 import type { Args, Env, GetPostsOptions, Post, Result } from './types'
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs'
-import { join, sep } from 'node:path'
 import { consola } from 'consola'
+import { join, sep } from 'pathe'
 import { processMarkdown } from './processMarkdown'
 import { processSinglePostData } from './utils'
 
