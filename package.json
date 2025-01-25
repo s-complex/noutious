@@ -10,7 +10,9 @@
     "type": "git",
     "url": "https://github.com/s-complex/noutious.git"
   },
-  "keywords": ["cms"],
+  "keywords": [
+    "cms"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.mjs"
@@ -25,7 +27,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "unbuild --minify",
+    "build": "rolldown -c rolldown.config.ts",
     "dev": "unbuild --stub",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -44,7 +46,6 @@
     "eslint-plugin-format": "^1.0.1",
     "tinyglobby": "^0.2.10",
     "typescript": "^5.7.2",
-    "unbuild": "^3.2.0",
     "vitest": "^2.1.8"
   },
   "pnpm": {
