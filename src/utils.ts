@@ -83,7 +83,8 @@ export async function processSinglePostData(post: Post): Promise<Post> {
     const postFile = await readFile(post.source, 'utf-8')
     const { content: postContent } = matter(postFile)
     post.content = postContent.replace(/\r\n/g, '\n').trim()
-  } catch (error) {
+  }
+  catch (error) {
     consola.error('Error reading or parsing file:', error)
   }
   return post

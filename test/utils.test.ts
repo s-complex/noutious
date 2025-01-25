@@ -54,7 +54,7 @@ describe('utils', () => {
       expect(await processTagData(['getting-started.md', 'hello-world.md'], './test/posts')).toStrictEqual(['noutious', 'guide'])
     })
   })
-  
+
   describe('processCategoryData', () => {
     it('should collect and process category data', async () => {
       expect(await processCategoryData(['getting-started.md', 'hello-world.md'], './test/posts')).toStrictEqual(['guide', 'default'])

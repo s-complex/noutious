@@ -33,6 +33,6 @@ export interface Env {
 }
 
 export interface GetPostsOptions {
-  date?: -1 | 1;
-  include?: Array<Record<string, string>>;
+  date?: -1 | 1
+  include?: Array<Record<string, string>>
 }
