@@ -10,6 +10,7 @@ interface Post {
   }
   excerpt: string
   content?: string
+  more: string
 }
 
 interface Result {
@@ -37,10 +38,15 @@ interface GetPostsOptions {
   include?: Array<Record<string, string>>
 }
 
+interface FrontMatter {
+  [key: string]: any;
+}
+
 export type {
   Args,
   Env,
+  FrontMatter,
   GetPostsOptions,
   Post,
-  Result,
+  Result
 }

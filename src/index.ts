@@ -3,7 +3,6 @@ import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs'
 import { consola } from 'consola'
 import { join, sep } from 'pathe'
 import { processMarkdown } from './processMarkdown'
-import { processSinglePostData } from './utils'
 
 class Noutious {
   private baseDir: string
@@ -64,10 +63,8 @@ class Noutious {
       return null
     }
 
-    // 保留原始 key，获取所有文章对象
     let posts: Record<string, Post> = this.data.posts
 
-    // 筛选文章
     if (include && Array.isArray(include)) {
       posts = Object.fromEntries(
         Object.entries(posts).filter(([_, post]) =>
@@ -82,7 +79,6 @@ class Noutious {
       )
     }
 
-    // 按日期排序
     if (date) {
       posts = Object.fromEntries(
         Object.entries(posts).sort(([, postA], [, postB]) => {
@@ -118,7 +114,7 @@ class Noutious {
       return null
     }
     if (this.data.posts[key]) {
-      return processSinglePostData(this.data.posts[key])
+      return this.data.posts[key]
     }
     else {
       return null

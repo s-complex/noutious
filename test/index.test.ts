@@ -15,6 +15,7 @@ describe('main', () => {
             date: new Date('2025-01-10T00:00:00.000Z'),
             excerpt: '',
             frontmatter: {},
+            more: 'Some ways to use Noutious.\n\n<!--more-->\n\n## Initialize an instance',
             source: 'test/posts/getting-started.md',
             tags: ['noutious', 'guide'],
             title: 'Getting started',
