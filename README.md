@@ -32,7 +32,7 @@ function initNoutious() {
 
 ## API
 
-### `getPosts()`
+### `getBlogPosts()`
 
 ``` js
 // Get all posts data or specific posts data
@@ -42,21 +42,21 @@ const posts = await noutious.getPosts({
 })
 ```
 
-### `getCategories()`
+### `getBlogCategories()`
 
 ``` js
 // Get all categories
 const categories = await noutious.getCategories()
 ```
 
-### `getTags()`
+### `getBlogTags()`
 
 ``` js
 // Get all tags
 const tags = await noutious.getTags()
 ```
 
-### `getPost()`
+### `getBlogPost()`
 
 ``` js
 // Find post by its slug
