@@ -21,14 +21,14 @@ interface Result {
 }
 
 interface Args {
-  localDb?: boolean
+  persistData?: boolean
   draft?: boolean
   excerpt?: string
 }
 
 interface Env {
   args: Args
-  localDb: boolean
+  persistData: boolean
   draft: boolean
   excerpt: string
 }

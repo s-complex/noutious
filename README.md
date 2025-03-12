@@ -30,6 +30,46 @@ function initNoutious() {
 }
 ```
 
+## API
+
+### `getPosts()`
+
+``` js
+// Get all posts data or specific posts data
+const posts = await noutious.getPosts({
+  date: -1 // Sort result by date
+  include: [{ tags: "Noutious" }] // Filter result by specific value
+})
+```
+
+### `getCategories()`
+
+``` js
+// Get all categories
+const categories = await noutious.getCategories()
+```
+
+### `getTags()`
+
+``` js
+// Get all tags
+const tags = await noutious.getTags()
+```
+
+### `getPost()`
+
+``` js
+// Find post by its slug
+const post = await noutious.getPost('hello-world')
+```
+
+### `persistData()`
+
+``` js
+// Pre-generate all data and write into local file.
+await noutious.persistData()
+```
+
 ## License
 
 [MIT](https://github.com/s-complex/noutious/blob/main/LICENSE)

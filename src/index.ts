@@ -1,12 +1,15 @@
 import type { Args, Env, GetPostsOptions, Post, Result } from './types'
-import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs'
+import { readFile } from 'node:fs/promises'
 import { consola } from 'consola'
 import { join, sep } from 'pathe'
-import { processMarkdown } from './processMarkdown'
+import { persistData } from './persistData'
+import { processCategoryData, processPostsData, processTagData } from './processData'
+import { scan } from './utils'
 
 class Noutious {
   private baseDir: string
-  private sourceDir: string
+  private persistedDataFileDir: string
+  private blogSourceDir: string
   private env: Env
   private data: Result | null
   constructor(base_dir: string, args: Args) {
@@ -14,56 +17,44 @@ class Noutious {
       consola.error(new Error('base_dir is required.'))
     }
     this.baseDir = base_dir + sep
-    this.sourceDir = join(base_dir, 'posts') + sep
+    this.persistedDataFileDir = join(base_dir, 'data.json')
+    this.blogSourceDir = join(base_dir, 'posts') + sep
     this.env = {
       args,
-      localDb: Boolean(args.localDb),
+      persistData: Boolean(args.persistData),
       draft: Boolean(args.draft),
-      excerpt: String(args.excerpt) || '<!--more-->',
+      excerpt: String(args.excerpt) ?? '<!--more-->',
     }
     this.data = null
   }
 
-  async init() {
+  async persistData() {
     try {
-      if (this.env.localDb) {
-        const dbFilePath = join(this.baseDir, 'db.json')
-        try {
-          try {
-            if (existsSync(dbFilePath)) {
-              unlinkSync(dbFilePath)
-            }
-            this.data = await processMarkdown(this.sourceDir, this.env.excerpt)
-            writeFileSync(dbFilePath, JSON.stringify(this.data))
-          }
-          catch (e) {
-            consola.error(e)
-          }
-          const dbData = readFileSync(dbFilePath, 'utf-8')
-          this.data = JSON.parse(dbData)
-        }
-        catch (e) {
-          consola.error(e)
-        }
-      }
-      else {
-        this.data = await processMarkdown(this.sourceDir, this.env.excerpt)
-      }
-    }
-    catch (e) {
-      consola.error('Error initlializing data:', e)
+      await persistData(this.baseDir, this.env.draft, this.env.excerpt)
+    } catch (e) {
+      consola.error(new Error(`Error when persisting data: ${e}`))
     }
   }
 
-  async getPosts(options: GetPostsOptions = {}): Promise<Record<string, Post> | null> {
+  async getBlogPosts(options: GetPostsOptions = {}): Promise<Record<string, Post> | null> {
     const { date, include } = options
+    let posts: Record<string, Post> = {}
 
-    if (!this.data) {
-      consola.warn('Data not loaded. Call loadData() first.')
-      return null
+    if (this.persistedDataFileDir) {
+      const data = JSON.parse(await readFile(this.persistedDataFileDir, 'utf-8'))
+      posts = data.posts
+    } else {
+      const data = {}
+      const posts = await scan(`${this.blogSourceDir}/posts`)
+      const postsData = await processPostsData(posts, `${this.blogSourceDir}/posts`, this.env.excerpt)
+      if (this.env.draft) {
+        const drafts = await scan(`${this.blogSourceDir}/drafts`)
+        const draftsData = await processPostsData(drafts, `${this.blogSourceDir}/drafts`, this.env.excerpt)
+        Object.assign(data, postsData, draftsData);
+      } else {
+        Object.assign(data, postsData)
+      }
     }
-
-    let posts: Record<string, Post> = this.data.posts
 
     if (include && Array.isArray(include)) {
       posts = Object.fromEntries(
@@ -92,31 +83,70 @@ class Noutious {
     return posts
   }
 
-  getTags() {
-    if (!this.data) {
-      consola.warn('Data not loaded. Call loadData() first.')
-      return null
+  async getBlogTags() {
+    const tags = [];
+
+    if (this.persistedDataFileDir) {
+      const data = JSON.parse(await readFile(this.persistedDataFileDir, 'utf-8'))
+      tags.push(...data.tags)
+    } else {
+      const posts = await scan(`${this.blogSourceDir}/posts`)
+      const postsTags = await processTagData(posts, this.blogSourceDir)
+      if (this.env.draft) {
+        const drafts = await scan(`${this.blogSourceDir}/drafts`)
+        const draftsTags = await processTagData(drafts, this.blogSourceDir)
+        tags.push(...postsTags, ...draftsTags)
+      } else {
+        tags.push(...postsTags)
+      }
     }
-    return this.data.tag
+
+    return tags
   }
 
-  getCategories() {
-    if (!this.data) {
-      consola.warn('Data not loaded. Call loadData() first.')
-      return null
+  async getBlogCategories() {
+    const categories = [];
+
+    if (this.persistedDataFileDir) {
+      const data = JSON.parse(await readFile(this.persistedDataFileDir, 'utf-8'))
+      categories.push(...data.categories)
+    } else {
+      const posts = await scan(`${this.blogSourceDir}/posts`)
+      const postsCategories = await processCategoryData(posts, this.blogSourceDir)
+      if (this.env.draft) {
+        const drafts = await scan(`${this.blogSourceDir}/drafts`)
+        const draftsCategories = await processCategoryData(drafts, this.blogSourceDir)
+        categories.push(...postsCategories, ...draftsCategories)
+      } else {
+        categories.push(...postsCategories)
+      }
     }
-    return this.data.category
+
+    return categories
   }
 
-  getSinglePost(key: string) {
-    if (!this.data) {
-      consola.warn('Data not loaded. Call loadData() first.')
-      return null
+  async getBlogPost(key: string) {
+    let posts: Record<string, Post> = {}
+
+    if (this.persistedDataFileDir) {
+      const data = JSON.parse(await readFile(this.persistedDataFileDir, 'utf-8'))
+      posts = data.posts
+    } else {
+      const data = {}
+      const posts = await scan(`${this.blogSourceDir}/posts`)
+      const postsData = await processPostsData(posts, `${this.blogSourceDir}/posts`, this.env.excerpt)
+      if (this.env.draft) {
+        const drafts = await scan(`${this.blogSourceDir}/drafts`)
+        const draftsData = await processPostsData(drafts, `${this.blogSourceDir}/drafts`, this.env.excerpt)
+        Object.assign(data, postsData, draftsData);
+      } else {
+        Object.assign(data, postsData)
+      }
     }
-    if (this.data.posts[key]) {
-      return this.data.posts[key]
-    }
-    else {
+
+    if (posts[key]) {
+      return posts[key]
+    } else {
       return null
     }
   }
