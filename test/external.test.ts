@@ -1,0 +1,42 @@
+import { describe, expect, it } from 'vitest'
+import { createNoutious } from '../src/index'
+
+describe('external function test', async () => {
+  const noutious = await createNoutious(`${process.cwd()}/test/baseDir`, { persist: true })
+
+  describe('get posts data', () => {
+    describe('without option', () => {
+      it('should return all posts', async () => {
+        expect(await noutious.fetchBlogPosts()).toStrictEqual({
+          'getting-started': {
+            source: 'D:/Projects/node/Noutious/test/baseDir/blog/posts/getting-started.md',
+            frontmatter: {},
+            date: '2025-01-10T00:00:00.000Z',
+            updated: '2025-04-04T07:54:04.372Z',
+            title: 'Getting started',
+            excerpt: 'Some ways to use Noutious.',
+            more: '## Initialize an instance',
+            categories: 'guide',
+            tags: [
+              'noutious',
+              'guide',
+            ],
+            content: '---\r\ntitle: Getting started\r\ndate: 2025-01-10\r\ncategories: guide\r\ntags:\r\n- noutious\r\n- guide\r\n---\r\n\r\nSome ways to use Noutious.\r\n\r\n<!-- more -->\r\n\r\n## Initialize an instance\r\n',
+          },
+          'hello-world': {
+            source: 'D:/Projects/node/Noutious/test/baseDir/blog/posts/hello-world.md',
+            frontmatter: {},
+            date: '2025-01-09T00:00:00.000Z',
+            updated: '2025-04-04T07:54:07.840Z',
+            title: 'Hello World',
+            excerpt: 'Welcome to use Noutious!',
+            more: '## Why Noutious',
+            categories: 'default',
+            tags: 'noutious',
+            content: '---\r\ntitle: Hello World\r\ndate: 2025-01-09\r\ncategories: default\r\ntags: noutious\r\n---\r\n\r\nWelcome to use Noutious!\r\n\r\n<!-- more -->\r\n\r\n## Why Noutious\r\n',
+          },
+        })
+      })
+    })
+  })
+})

@@ -7,6 +7,6 @@ tags: noutious
 
 Welcome to use Noutious!
 
-<!--more-->
+<!-- more -->
 
 ## Why Noutious

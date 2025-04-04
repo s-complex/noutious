@@ -34,38 +34,38 @@ function initNoutious() {
 
 ### `getBlogPosts()`
 
-``` js
+```js
 // Get all posts data or specific posts data
 const posts = await noutious.getPosts({
-  date: -1 // Sort result by date
-  include: [{ tags: "Noutious" }] // Filter result by specific value
+  date: -1, // Sort result by date
+  include: [{ tags: 'Noutious' }] // Filter result by specific value
 })
 ```
 
 ### `getBlogCategories()`
 
-``` js
+```js
 // Get all categories
 const categories = await noutious.getCategories()
 ```
 
 ### `getBlogTags()`
 
-``` js
+```js
 // Get all tags
 const tags = await noutious.getTags()
 ```
 
 ### `getBlogPost()`
 
-``` js
+```js
 // Find post by its slug
 const post = await noutious.getPost('hello-world')
 ```
 
 ### `persistData()`
 
-``` js
+```js
 // Pre-generate all data and write into local file.
 await noutious.persistData()
 ```

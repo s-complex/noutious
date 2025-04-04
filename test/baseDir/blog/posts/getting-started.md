@@ -9,6 +9,6 @@ tags:
 
 Some ways to use Noutious.
 
-<!--more-->
+<!-- more -->
 
 ## Initialize an instance

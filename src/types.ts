@@ -1,4 +1,4 @@
-interface Post {
+export interface Post {
   source: string
   title: string
   date: Date | string
@@ -13,40 +13,20 @@ interface Post {
   more: string
 }
 
-interface Result {
+export interface Result {
   generator: string
   posts: Record<string, Post>
-  tag: string[]
-  category: string[]
+  tags: string[]
+  categories: string[]
 }
 
-interface Args {
-  persistData?: boolean
+export interface Options {
+  persist?: boolean
   draft?: boolean
-  excerpt?: string
+  excerptMark?: string
 }
 
-interface Env {
-  args: Args
-  persistData: boolean
-  draft: boolean
-  excerpt: string
-}
-
-interface GetPostsOptions {
+export interface GetPostsOptions {
   date?: -1 | 1
   include?: Array<Record<string, string>>
-}
-
-interface FrontMatter {
-  [key: string]: any;
-}
-
-export type {
-  Args,
-  Env,
-  FrontMatter,
-  GetPostsOptions,
-  Post,
-  Result
 }
