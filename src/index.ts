@@ -1,88 +1,51 @@
-import type { GetPostsOptions, Options, Post } from './types'
-import { readFile, stat, unlink } from 'node:fs/promises'
-import { consola } from 'consola'
-import { persistData } from './persistData'
-import { processBlogCategoriesData, processBlogPostsData, processBlogTagsData } from './processData'
+import type { GetPostsOptions, Options, Post } from './types';
+import { readFile, stat, unlink } from 'node:fs/promises';
+import { consola } from 'consola';
+import { useStorage } from './storage';
+import { normalize } from 'pathe';
+import { glob } from 'tinyglobby'
+import { processBlogPostsData, processBlogCategoriesData, processBlogTagsData } from './utils/processData';
 
-export async function createNoutious(baseDir: string, options: Options) {
-  const { persist = false, draft = false, excerptMark = '<!-- more -->' } = options
+export async function createNoutious(baseDir: string, options: Options): Promise<{
+	queryBlogPosts: () => Promise<Record<string, Post> | null>;
+	queryBlogCategories: () => Promise<string[] | null>;
+	queryBlogTags: () => Promise<string[] | null>;
+}> {
+	const { draft = false, excerptMark = '<!-- more -->' } = options
 
-  const persistDataFileDir = `${baseDir}/data.json`
-  if (persist) {
-    try {
-      await persistData(baseDir, draft, excerptMark)
-    }
-    catch (e) {
-      consola.error(new Error(e as string))
-    }
-  }
-  else {
-    try {
-      if (await stat(persistDataFileDir)) {
-        await unlink(persistDataFileDir)
-      }
-    }
-    catch (e) {
-      consola.error(new Error(`Error when deleting persist data file: ${e}`))
-    }
-  }
+	try {
+		baseDir = normalize(baseDir)
+		const filesToScan = [`${baseDir}/blog/posts/**/*.md`]
+		if (draft) {
+			filesToScan.push(`${baseDir}/blog/drafts/**/*.md`)
+		}
+		const fileList = await glob(filesToScan, {
+			absolute: true,
+		})
+		await processBlogPostsData(fileList, baseDir, excerptMark)
+		await processBlogCategoriesData(fileList, baseDir)
+		await processBlogTagsData(fileList, baseDir)
+	} catch (e) {
+		consola.error(new Error(`Error when processing data: ${e}`))
+	}
 
-  async function fetchBlogPosts(options: GetPostsOptions = {}): Promise<Record<string, Post> | null> {
-    const { include, date } = options
-    let posts: Record<string, Post> = {}
+	async function queryBlogPosts(): Promise<Record<string, Post> | null> {
+		const posts = useStorage(baseDir).getItemRaw<Record<string, Post>>('posts')
 
-    try {
-      const data: { posts: Record<string, Post> } = JSON.parse(await readFile(persistDataFileDir, 'utf-8'))
-      posts = data.posts
-    }
-    catch {
-      try {
-        const data = await processBlogPostsData(baseDir, draft, excerptMark)
-        posts = data
-      }
-      catch (e) {
-        consola.error(new Error(`Error when fetching raw blog posts data: ${e}`))
-      }
-    }
+		return posts
+	}
 
-    if (include && Array.isArray(include)) {
-      posts = Object.fromEntries(
-        Object.entries(posts).filter(([_, post]) =>
-          include.some(condition =>
-            Object.entries(condition).every(([key, value]) =>
-              Array.isArray(post[key as keyof Post])
-                ? (post[key as keyof Post] as string[]).includes(value)
-                : post[key as keyof Post] === value,
-            ),
-          ),
-        ),
-      )
-    }
+	async function queryBlogCategories() {
+		return useStorage(baseDir).getItemRaw<string[]>('categories')
+	}
 
-    if (date) {
-      posts = Object.fromEntries(
-        Object.entries(posts).sort(([, postA], [, postB]) => {
-          const dateA = new Date(postA.date)
-          const dateB = new Date(postB.date)
-          return date === -1 ? dateB.getTime() - dateA.getTime() : dateA.getTime() - dateB.getTime()
-        }),
-      )
-    }
+	async function queryBlogTags() {
+		return useStorage(baseDir).getItemRaw<string[]>('tags')
+	}
 
-    return posts
-  }
-
-  async function fetchBlogCategories() {
-    return await processBlogCategoriesData(baseDir, draft)
-  }
-
-  async function fetchBlogTags() {
-    return await processBlogTagsData(baseDir, draft)
-  }
-
-  return {
-    fetchBlogPosts,
-    fetchBlogCategories,
-    fetchBlogTags,
-  }
+	return {
+		queryBlogPosts,
+		queryBlogCategories,
+		queryBlogTags
+	}
 }
