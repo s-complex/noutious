@@ -1,0 +1,10 @@
+{
+	"printWidth": 90,
+	"tabWidth": 4,
+	"useTabs": true,
+	"semi": true,
+	"singleQuote": true,
+	"bracketSpacing": true,
+	"objectWrap": "collapse",
+	"arrowParens": "always"
+}
