@@ -2,7 +2,7 @@
 
 A simple file-based content manage system driven by [Node.js](https://nodejs.org), inspired by [Hexo](https://hexo.io) and its core [Warehouse](https://github.com/hexojs/warehouse).
 
-> Note: This project is still under development.
+> Note: This project is still under development. **DO NOT USE THIS PROJECT IN PRODUCTION.**
 
 ## Quick Start
 
@@ -18,57 +18,38 @@ $ pnpm add noutious
 Then import it and initialize an instance.
 
 ```js
-import Noutious from 'noutious';
+import { createNoutious } from 'noutious';
 
-function initNoutious() {
-	const noutious = new Noutious({
-		localDb: process.env.NODE_ENV === 'production',
-		draft: false,
-		excerpt: '',
-	});
-	return noutious;
-}
+const noutious = await createNoutious({
+	draft: false, // set to `true` to scan draft posts.
+	excerptMark: ''
+})
 ```
 
 ## API
 
-### `getBlogPosts()`
+### `queryBlogPosts()`
 
 ```js
-// Get all posts data or specific posts data
-const posts = await noutious.getPosts({
-	date: -1, // Sort result by date
-	include: [{ tags: 'Noutious' }], // Filter result by specific value
-});
+// Get all posts data
+const posts = await noutious.queryBlogPosts();
 ```
 
-### `getBlogCategories()`
+### `queryBlogCategories()`
 
 ```js
 // Get all categories
-const categories = await noutious.getCategories();
+const posts = await noutious.queryBlogCategories();
 ```
 
-### `getBlogTags()`
+### `queryBlogTags()`
 
 ```js
 // Get all tags
-const tags = await noutious.getTags();
+const posts = await noutious.queryBlogTags();
 ```
 
-### `getBlogPost()`
-
-```js
-// Find post by its slug
-const post = await noutious.getPost('hello-world');
-```
-
-### `persistData()`
-
-```js
-// Pre-generate all data and write into local file.
-await noutious.persistData();
-```
+Other APIs are still waiting for development.
 
 ## License
 
