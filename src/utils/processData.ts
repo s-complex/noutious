@@ -5,20 +5,20 @@ import { parseFrontMatter } from './markdown';
 import { useStorage } from '../storage';
 
 export async function processBlogPostsData(
-    fileList: string[],
-    baseDir: string,
-    excerptMark: string
+	fileList: string[],
+	baseDir: string,
+	excerptMark: string,
 ): Promise<void> {
-    const posts: Record<string, Post> = {}
-    for (const file of fileList) {
-        const path = join(baseDir, file);
+	const posts: Record<string, Post> = {};
+	for (const file of fileList) {
+		const path = join(baseDir, file);
 		const content = await readFile(path, 'utf-8');
 		const stats = await stat(path);
 
 		const { attributes, excerpt, more } = parseFrontMatter(content, excerptMark);
 		const { title, date, categories, tags, ...otherValue } = attributes;
 
-        const post: Post = {
+		const post: Post = {
 			source: path,
 			frontmatter: otherValue,
 			date: new Date(date),
@@ -30,19 +30,19 @@ export async function processBlogPostsData(
 			tags,
 		};
 		const slug = parse(file).name;
-		await useStorage(baseDir).setItemRaw(`posts:${slug}`, post)
-        posts[slug] = post
-    }
-    await useStorage(baseDir).setItemRaw('posts:all', posts)
+		await useStorage(baseDir).setItemRaw(`posts:${slug}`, post);
+		posts[slug] = post;
+	}
+	await useStorage(baseDir).setItemRaw('posts:all', posts);
 }
 
 // The method of process categories data is same as tags.
 // I don't have ideas about merging them into one function.
 export async function processBlogCategoriesData(
-    fileList: string[],
-    baseDir: string,
+	fileList: string[],
+	baseDir: string,
 ): Promise<void> {
-    const categories: Set<string> = new Set();
+	const categories: Set<string> = new Set();
 
 	for (const file of fileList) {
 		const path = join(baseDir, file);
@@ -55,14 +55,14 @@ export async function processBlogCategoriesData(
 		}
 	}
 
-    await useStorage(baseDir).setItemRaw('categories', Array.from(categories))
+	await useStorage(baseDir).setItemRaw('categories', Array.from(categories));
 }
 
 export async function processBlogTagsData(
-    fileList: string[],
-    baseDir: string,
+	fileList: string[],
+	baseDir: string,
 ): Promise<void> {
-    const tags: Set<string> = new Set();
+	const tags: Set<string> = new Set();
 
 	for (const file of fileList) {
 		const path = join(baseDir, file);
@@ -75,5 +75,5 @@ export async function processBlogTagsData(
 		}
 	}
 
-    await useStorage(baseDir).setItemRaw('tags', Array.from(tags))
+	await useStorage(baseDir).setItemRaw('tags', Array.from(tags));
 }
