@@ -28,29 +28,30 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "unbuild --minify",
-    "dev": "unbuild --stub",
-    "lint": "oxlint",
+    "build": "tsdown",
+    "lint": "oxlint --fix --fix-suggestions && prettier --write .",
     "test": "vitest run",
     "test:ui": "vitest --ui"
   },
   "dependencies": {
     "consola": "^3.4.0",
     "pathe": "^2.0.3",
+    "tinyglobby": "^0.2.12",
+    "unstorage": "^1.16.0",
     "yaml": "^2.7.0"
   },
   "devDependencies": {
     "@types/node": "^22.13.5",
     "@vitest/ui": "^3.0.7",
     "oxlint": "^0.16.4",
-    "tinyglobby": "^0.2.12",
+    "prettier": "3.5.3",
+    "tsdown": "0.11.0-beta.3",
     "typescript": "^5.7.3",
-    "unbuild": "^3.5.0",
     "vitest": "^3.0.7"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "esbuild"
+      "rolldown"
     ]
   }
 }
