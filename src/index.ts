@@ -1,51 +1,114 @@
-import type { Options, Post } from './types';
-import { consola } from 'consola';
-import { useStorage } from './storage';
-import { normalize } from 'pathe';
 import { glob } from 'tinyglobby';
-import {
-	processBlogPostsData,
-	processBlogCategoriesData,
-	processBlogTagsData,
-} from './utils/processData';
+import { persistData } from './persist';
+import { Config, Post, PostsFilterOptions, PostSlim } from './types';
+import { writeConfig } from './utils/config';
+import { transformPosts, transformTaxonomies } from './utils/transform';
+import { filterAndSortEntries } from './utils/sort';
 
 export async function createNoutious(
-	baseDir: string,
-	options: Options,
+	config: Config
 ): Promise<{
-	queryBlogPosts: () => Promise<Record<string, Post> | null>;
-	queryBlogCategories: () => Promise<string[] | null>;
-	queryBlogTags: () => Promise<string[] | null>;
+	queryPosts: (
+		options?: PostsFilterOptions
+	) => Promise<{ posts: Record<string, PostSlim> }>;
+	queryCategories: () => Promise<string[]>;
+	queryTags: () => Promise<string[]>;
+	queryPost: (
+		slug: string,
+		options?: { sort?: { date?: 1 | -1 } }
+	) => Promise<{ post?: Post; prev?: Post; next?: Post }>;
 }> {
-	const { draft = false, excerptMark = '<!-- more -->' } = options;
+	writeConfig(config);
+	let fileList: string[];
 
-	try {
-		baseDir = normalize(baseDir);
-		const filesToScan = [`${baseDir}/blog/posts/**/*.md`];
-		if (draft) {
-			filesToScan.push(`${baseDir}/blog/drafts/**/*.md`);
+	if (config.persist) {
+		await persistData.write();
+	} else {
+		const filesToScan = [`${config.baseDir}/blog/posts`];
+		if (config.draft) {
+			filesToScan.push(`${config.baseDir}/blog/drafts`);
 		}
-		const fileList = await glob(filesToScan, { absolute: true });
-		await processBlogPostsData(fileList, baseDir, excerptMark);
-		await processBlogCategoriesData(fileList, baseDir);
-		await processBlogTagsData(fileList, baseDir);
-	} catch (e) {
-		consola.error(new Error(`Error when processing data: ${e}`));
+		fileList = await glob(filesToScan, { absolute: true });
 	}
 
-	async function queryBlogPosts(): Promise<Record<string, Post> | null> {
-		const posts = useStorage(baseDir).getItemRaw<Record<string, Post>>('posts');
+	async function queryPosts(
+		options: PostsFilterOptions = {}
+	): Promise<{ posts: Record<string, PostSlim> }> {
+		const data = await persistData.read();
+		let posts = data?.posts ?? (await transformPosts(fileList));
+		const { sort, includes = {} } = options;
 
-		return posts;
+		for (const post of Object.values(posts)) {
+			post.date =
+				post.date instanceof Date ? post.date : new Date(post.date);
+		}
+
+		let entries = Object.entries(posts);
+
+		entries = filterAndSortEntries(entries, includes, sort);
+
+		const slimEntries = entries.map(([slug, post]) => [
+			slug,
+			{
+				slug,
+				title: post.title,
+				date: post.date,
+				categories: post.categories,
+				tags: post.tags,
+				frontmatter: post.frontmatter,
+				excerpt: post.excerpt,
+			} as PostSlim,
+		]);
+
+		return { posts: Object.fromEntries(slimEntries) };
 	}
 
-	async function queryBlogCategories() {
-		return useStorage(baseDir).getItemRaw<string[]>('categories');
+	async function queryCategories(): Promise<string[]> {
+		const data = await persistData.read();
+		let categories =
+			data?.categories ??
+			(await transformTaxonomies(fileList)).categories;
+		return categories;
 	}
 
-	async function queryBlogTags() {
-		return useStorage(baseDir).getItemRaw<string[]>('tags');
+	async function queryTags(): Promise<string[]> {
+		const data = await persistData.read();
+		let tags = data?.tags ?? (await transformTaxonomies(fileList)).tags;
+		return tags;
 	}
 
-	return { queryBlogPosts, queryBlogCategories, queryBlogTags };
+	async function queryPost(
+		slug: string,
+		options: { sort?: { date?: 1 | -1 } } = {}
+	): Promise<{ post?: Post; prev?: Post; next?: Post }> {
+		const data = await persistData.read();
+		let posts = data?.posts ?? (await transformPosts(fileList));
+		const { sort = { date: -1 } } = options;
+
+		for (const post of Object.values(posts)) {
+			post.date =
+				post.date instanceof Date ? post.date : new Date(post.date);
+			post.updated =
+				post.updated instanceof Date
+					? post.updated
+					: new Date(post.updated);
+		}
+
+		let entries = Object.entries(posts);
+		entries = filterAndSortEntries(entries, {}, sort);
+
+		const idx = entries.findIndex(([key]) => key === slug);
+
+		if (idx === -1) {
+			return { post: undefined, prev: undefined, next: undefined };
+		}
+
+		const post = entries[idx][1];
+		const prev = idx > 0 ? entries[idx - 1][1] : undefined;
+		const next = idx < entries.length - 1 ? entries[idx + 1][1] : undefined;
+
+		return { post, prev, next };
+	}
+
+	return { queryPosts, queryCategories, queryTags, queryPost };
 }

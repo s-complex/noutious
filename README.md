@@ -1,56 +1,65 @@
 # Noutious
 
-A simple file-based content manage system driven by [Node.js](https://nodejs.org), inspired by [Hexo](https://hexo.io) and its core [Warehouse](https://github.com/hexojs/warehouse).
+A file-based content manage system, driven by Node.js. This project was inspired by [Hexo](https://github.com/hexojs/hexo) and [Nuxt Content](https://github.com/nuxt/content).
 
-> Note: This project is still under development. **DO NOT USE THIS PROJECT IN PRODUCTION.**
+> [!IMPORTANT]
+>
+> This project is still in development, bugs and mistakes are everywhere. **DO NOT USE IT IN PRODUCTION.**
 
 ## Quick Start
 
-```
-// npm
+```shell
 $ npm install noutious
-// yarn
 $ yarn add noutious
-// pnpm
 $ pnpm add noutious
 ```
 
-Then import it and initialize an instance.
+Then create an instance:
 
-```js
-import { createNoutious } from 'noutious';
+```typescript
+import { createNoutious } from 'noutious'
 
 const noutious = await createNoutious({
-	draft: false, // set to `true` to scan draft posts.
-	excerptMark: ''
+    baseDir: process.cwd() // required
+    persist: false
+    draft: false
+    excerpt: '<!-- more -->'
 })
 ```
 
-## API
+## Usage
 
-### `queryBlogPosts()`
+### Query all posts
 
-```js
-// Get all posts data
-const posts = await noutious.queryBlogPosts();
+```typescript
+const posts = await noutious.queryPosts({
+    // options
+    sort: { date: -1 } // sort posts by date, value: 1 | -1
+    include: { categories: 'Noutious' } // filter posts by specific front-matter value
+})
 ```
 
-### `queryBlogCategories()`
+### Query all categories
 
-```js
-// Get all categories
-const posts = await noutious.queryBlogCategories();
+```typescript
+const categories = await noutious.queryCategories();
 ```
 
-### `queryBlogTags()`
+### Query all tags
 
-```js
-// Get all tags
-const posts = await noutious.queryBlogTags();
+```typescript
+const tags = await noutious.queryTags();
 ```
 
-Other APIs are still waiting for development.
+### Query specific posts
+
+```typescript
+const { post, prev, next } = await noutious.queryPost(
+	// query by slug
+	'hello-world',
+	// sort posts by date, but for query previous post and next post.
+	{ sort: { date: -1 } }
+);
+```
 
 ## License
-
-[MIT](https://github.com/s-complex/noutious/blob/main/LICENSE)

@@ -1,30 +1,34 @@
-export interface Post {
-	source: string;
-	title: string;
-	date: Date | string;
-	updated: Date | string;
-	categories: string;
-	tags: string | string[];
-	frontmatter: { [key: string]: any };
-	excerpt: string;
-	content?: string;
-	more: string;
-}
-
-export interface Result {
-	generator: string;
-	posts: Record<string, Post>;
-	tags: string[];
-	categories: string[];
-}
-
-export interface Options {
+export interface Config {
+	baseDir: string;
 	persist?: boolean;
 	draft?: boolean;
-	excerptMark?: string;
+	excerpt?: string;
 }
 
-export interface GetPostsOptions {
-	date?: -1 | 1;
-	include?: Array<Record<string, string>>;
+export interface PostSlim {
+	title: string;
+	date: Date;
+	categories?: string | string[]; // 注意这里是数组类型，跟 Post 中保持一致更好
+	tags?: string[];
+	frontmatter: Record<string, any>;
+	excerpt?: string;
+}
+
+export interface Post extends PostSlim {
+	source: string;
+	updated: Date;
+	content: string;
+	raw: string;
+}
+
+export interface PersistData {
+	generator: string;
+	posts: Record<string, Post>;
+	categories: string[];
+	tags: string[];
+}
+
+export interface PostsFilterOptions {
+	sort?: { date?: 1 | -1 };
+	includes?: Record<string, any>;
 }

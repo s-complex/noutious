@@ -1,4 +1,3 @@
 node_modules
-playgrounds
 dist
-test/fixture
+.gitignore
