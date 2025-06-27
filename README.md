@@ -63,3 +63,5 @@ const { post, prev, next } = await noutious.queryPost(
 ```
 
 ## License
+
+[MIT](https://github.com/s-complex/noutious/blob/main/LICENSE)
