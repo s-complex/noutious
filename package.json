@@ -29,7 +29,7 @@
 	"types": "./dist/index.d.mts",
 	"exports": {
 		".": "./dist/index.mjs",
-		"./types": "./dist/index.d.mts"
+		"./types": "./dist/types.d.mts"
 	},
 	"files": [
 		"dist"
