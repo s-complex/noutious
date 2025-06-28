@@ -4,7 +4,7 @@ import { Config } from '../types';
 let value: Config | undefined;
 
 const defaultConfig: Config = {
-	baseDir: process.cwd(),
+	baseDir: './',
 	persist: false,
 	draft: false,
 	excerpt: '<!-- more -->',
