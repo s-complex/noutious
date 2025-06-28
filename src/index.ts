@@ -10,7 +10,7 @@ export async function createNoutious(
 ): Promise<{
 	queryPosts: (
 		options?: PostsFilterOptions
-	) => Promise<{ posts: Record<string, PostSlim> }>;
+	) => Promise<Record<string, PostSlim>>;
 	queryCategories: () => Promise<string[]>;
 	queryTags: () => Promise<string[]>;
 	queryPost: (
