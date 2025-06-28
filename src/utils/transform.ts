@@ -31,7 +31,7 @@ export async function transformPosts(
 			updated: new Date(stats.mtime),
 			categories,
 			tags,
-			excerpt: excerpt || description,
+			excerpt: description || excerpt,
 			frontmatter,
 			content,
 			raw,
