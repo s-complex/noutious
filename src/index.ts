@@ -33,7 +33,7 @@ export async function createNoutious(
 
 	async function queryPosts(
 		options: PostsFilterOptions = {}
-	): Promise<{ posts: Record<string, PostSlim> }> {
+	) {
 		const data = await persistData.read();
 		let posts = data?.posts ?? (await transformPosts(fileList));
 		const { sort, includes = {} } = options;
@@ -60,7 +60,7 @@ export async function createNoutious(
 			} as PostSlim,
 		]);
 
-		return { posts: Object.fromEntries(slimEntries) };
+		return Object.fromEntries(slimEntries);
 	}
 
 	async function queryCategories(): Promise<string[]> {
