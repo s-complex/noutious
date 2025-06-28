@@ -2,12 +2,13 @@ import { readFile, stat } from 'node:fs/promises';
 import { Post } from '../types';
 import matter from 'gray-matter';
 import { parse } from 'pathe';
+import { readConfig } from './config';
 
 export async function transformPosts(
 	fileList: string[]
 ): Promise<Record<string, Post>> {
 	const posts: Record<string, Post> = {};
-	const excerptMark = '<!--more-->';
+	const config = readConfig()
 
 	for (const path of fileList) {
 		const [raw, stats] = await Promise.all([
@@ -19,8 +20,8 @@ export async function transformPosts(
 		const { title, date, categories, tags, description, ...frontmatter } =
 			data;
 
-		const excerpt = content.includes(excerptMark)
-			? content.split(excerptMark)[0].trim()
+		const excerpt = content.includes(config.excerpt!)
+			? content.split(config.excerpt!)[0].trim()
 			: content.trim();
 
 		posts[parse(path).name] = {
