@@ -38,8 +38,8 @@ export const persistData = {
 		try {
 			const raw = await readFile(dataFilePath, 'utf-8');
 			return JSON.parse(raw) as PersistData;
-		} catch (e) {
-			consola.error(new Error(`${e}`));
+		} catch {
+			return undefined
 		}
 	},
 };
