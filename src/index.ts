@@ -31,11 +31,13 @@ export async function createNoutious(
 		fileList = await glob(filesToScan, { absolute: true });
 	}
 
-	async function queryPosts(
-		options: PostsFilterOptions = {}
-	) {
+	async function queryPosts(options: PostsFilterOptions = {}) {
 		const data = await persistData.read();
-		let posts = data?.posts ?? (await transformPosts(fileList));
+		let posts =
+			config.persist && data?.posts
+				? data.posts
+				: await transformPosts(fileList);
+
 		const { sort, includes = {} } = options;
 
 		for (const post of Object.values(posts)) {
@@ -65,14 +67,20 @@ export async function createNoutious(
 	async function queryCategories(): Promise<string[]> {
 		const data = await persistData.read();
 		let categories =
-			data?.categories ??
-			(await transformTaxonomies(fileList)).categories;
+			config.persist && data?.categories
+				? data.categories
+				: (await transformTaxonomies(fileList)).categories;
+
 		return categories;
 	}
 
 	async function queryTags(): Promise<string[]> {
 		const data = await persistData.read();
-		let tags = data?.tags ?? (await transformTaxonomies(fileList)).tags;
+		let tags =
+			config.persist && data?.tags
+				? data.tags
+				: (await transformTaxonomies(fileList)).tags;
+
 		return tags;
 	}
 
@@ -81,7 +89,10 @@ export async function createNoutious(
 		options: { sort?: { date?: 1 | -1 } } = {}
 	): Promise<{ post?: Post; prev?: Post; next?: Post }> {
 		const data = await persistData.read();
-		let posts = data?.posts ?? (await transformPosts(fileList));
+		let posts =
+			config.persist && data?.posts
+				? data.posts
+				: await transformPosts(fileList);
 		const { sort = { date: -1 } } = options;
 
 		for (const post of Object.values(posts)) {
