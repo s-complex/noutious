@@ -50,7 +50,6 @@ export async function createNoutious(
 		const slimEntries = entries.map(([slug, post]) => [
 			slug,
 			{
-				slug,
 				title: post.title,
 				date: post.date,
 				categories: post.categories,

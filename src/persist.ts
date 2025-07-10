@@ -4,7 +4,6 @@ import { transformPosts, transformTaxonomies } from './utils/transform';
 import { PersistData } from './types';
 import pkg from '../package.json';
 import { readFile, writeFile } from 'fs/promises';
-import { consola } from 'consola';
 
 // persist-data.ts
 export const persistData = {
