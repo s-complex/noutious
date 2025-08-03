@@ -1,7 +1,7 @@
 {
 	"name": "noutious",
 	"type": "module",
-	"version": "0.0.2-alpha.8",
+	"version": "0.0.2-alpha.9",
 	"packageManager": "pnpm@10.0.0",
 	"description": "A file-based content manage system, driven by Node.js.",
 	"repository": {
@@ -29,6 +29,7 @@
 	"types": "./dist/index.d.mts",
 	"exports": {
 		".": "./dist/index.mjs",
+		"./processor": "./dist/processor.mjs",
 		"./types": "./dist/types.d.mts"
 	},
 	"files": [
@@ -43,6 +44,7 @@
 		"vitest": "^3.2.3"
 	},
 	"dependencies": {
+		"chokidar": "^4.0.3",
 		"consola": "^3.4.2",
 		"gray-matter": "^4.0.3",
 		"pathe": "^2.0.3",

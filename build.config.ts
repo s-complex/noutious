@@ -4,10 +4,10 @@ export default defineBuildConfig({
 	entries: [
 		{
 			type: 'bundle',
-			input: ['./src/index.ts'],
+			input: ['./src/index.ts', './src/processor.ts'],
 			minify: true,
 			rolldown: {
-				external: ['consola', 'gray-matter', 'tinyglobby', 'pathe'],
+				external: ['chokidar', 'consola', 'gray-matter', 'pathe', 'tinyglobby'],
 			},
 		},
 		{
