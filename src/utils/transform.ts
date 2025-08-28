@@ -4,7 +4,7 @@ import matter from 'gray-matter';
 import { parse } from 'pathe';
 
 export async function transformPosts(
-    config: Config,
+	config: Config,
 	fileList: string[]
 ): Promise<Record<string, Post>> {
 	const posts: Record<string, Post> = {};

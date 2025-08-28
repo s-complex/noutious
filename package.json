@@ -1,7 +1,7 @@
 {
 	"name": "noutious",
 	"type": "module",
-	"version": "0.0.2-alpha.9",
+	"version": "0.0.2-alpha.10",
 	"packageManager": "pnpm@10.0.0",
 	"description": "A file-based content manage system, driven by Node.js.",
 	"repository": {
@@ -23,7 +23,7 @@
 		"lint:check": "oxlint && prettier -c .",
 		"lint:fix": "oxlint --fix && prettier --write .",
 		"test": "vitest run",
-		"release": "obuild && npm publish"
+		"release": "pnpm lint:check && obuild && npm publish"
 	},
 	"main": "./dist/index.mjs",
 	"types": "./dist/index.d.mts",
