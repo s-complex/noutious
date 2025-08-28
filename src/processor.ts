@@ -19,49 +19,41 @@ async function processData(config: Config): Promise<void> {
 	state(result);
 }
 
-function debounce(fn: () => void, delay: number) {
-	let timer: NodeJS.Timeout | null = null;
-	return () => {
-		if (timer) clearTimeout(timer);
-		timer = setTimeout(fn, delay);
-	};
+function debounceFn<T extends (...args: any[]) => void>(fn: T, delay = 300) {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    return (...args: Parameters<T>) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+    };
 }
 
 export async function processor(config: Config): Promise<void> {
-	await processData(config);
+    await processData(config);
 
-	if (process.env.NODE_ENV === 'development') {
-		const watcher = chokidar.watch('blog', {
-			cwd: config.baseDir,
-			ignoreInitial: true,
-		});
+    if (process.env.NODE_ENV === 'development') {
+        const watcher = chokidar.watch('blog', {
+            cwd: config.baseDir,
+            ignoreInitial: true,
+        });
 
+        const debouncedProcess = debounceFn(() => {
+            consola.info('Detected changes, re-processing data...');
+            processData(config).catch((err) =>
+                consola.error('Error during re-processing:', err)
+            );
+        }, 500);
 
-		const recentPaths = new Set<string>();
-		const debouncedProcess = debounce(() => {
-			consola.info('Detected changes, re-processing data...');
-			processData(config).catch((err) =>
-				consola.error('Error during re-processing:', err)
-			);
-		}, 300);
+        watcher
+            .on('add', () => {
+                debouncedProcess();
+            })
+            .on('change', () => {
+                debouncedProcess();
+            })
+            .on('unlink', () => {
+                debouncedProcess();
+            });
 
-		const handleChange = (path: string) => {
-			if (recentPaths.has(path)) return;
-
-			recentPaths.add(path);
-			consola.info(`Change detected on ${path}`);
-			debouncedProcess();
-
-			setTimeout(() => {
-				recentPaths.delete(path);
-			}, 500);
-		};
-
-		watcher
-			.on('add', handleChange)
-			.on('change', handleChange)
-			.on('unlink', handleChange);
-
-		consola.info('Start watching for changes...');
-	}
+        consola.info('Start watching for changes...');
+    }
 }
