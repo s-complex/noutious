@@ -17,14 +17,14 @@ $ pnpm add noutious
 Then create an instance:
 
 ```typescript
-import { createNoutious } from 'noutious'
+import { createNoutious } from 'noutious';
 
 const noutious = await createNoutious({
-    baseDir: process.cwd() // required
-    persist: false
-    draft: false
-    excerpt: '<!-- more -->'
-})
+	baseDir: './', // required
+	persist: false,
+	draft: false,
+	excerpt: '<!-- more -->',
+});
 ```
 
 ## Usage
@@ -33,10 +33,10 @@ const noutious = await createNoutious({
 
 ```typescript
 const posts = await noutious.queryPosts({
-    // options
-    sort: { date: -1 } // sort posts by date, value: 1 | -1
-    include: { categories: 'Noutious' } // filter posts by specific front-matter value
-})
+	// options
+	sort: { date: -1 }, // sort posts by date, value: 1 | -1
+	include: { categories: 'Noutious' }, // filter posts by specific front-matter value
+});
 ```
 
 ### Query all categories
