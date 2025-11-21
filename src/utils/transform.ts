@@ -1,13 +1,14 @@
 import { readFile, stat } from 'node:fs/promises';
-import { Config, Post } from '../types';
+import type { Post } from '../types';
 import matter from 'gray-matter';
 import { parse } from 'pathe';
+import { readConfig } from './config';
 
 export async function transformPosts(
-	config: Config,
 	fileList: string[]
 ): Promise<Record<string, Post>> {
 	const posts: Record<string, Post> = {};
+	const config = readConfig();
 
 	for (const path of fileList) {
 		const [raw, stats] = await Promise.all([

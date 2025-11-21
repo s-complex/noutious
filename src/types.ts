@@ -1,3 +1,10 @@
+export interface NoutiousConfig {
+	baseDir: string;
+	persist?: boolean;
+	draft?: boolean;
+	excerpt?: string;
+}
+
 export interface PostSlim {
 	title: string;
 	date: Date;
@@ -5,11 +12,6 @@ export interface PostSlim {
 	tags?: string[];
 	frontmatter: Record<string, any>;
 	excerpt?: string;
-}
-
-export interface PostsFilterOptions {
-	sort?: { date?: 1 | -1 };
-	includes?: Record<string, any>;
 }
 
 export interface Post extends PostSlim {
@@ -20,14 +22,13 @@ export interface Post extends PostSlim {
 }
 
 export interface Data {
+	generator: string;
 	posts: Record<string, Post>;
 	categories: string[];
 	tags: string[];
 }
 
-export interface Config {
-	baseDir: string;
-	persist?: boolean;
-	draft?: boolean;
-	excerpt?: string;
+export interface PostsFilterOptions {
+	sort?: { date?: 1 | -1 };
+	includes?: Record<string, any>;
 }
