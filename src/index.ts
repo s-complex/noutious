@@ -46,8 +46,11 @@ export async function createNoutious(
 		}
 
 		let entries = Object.entries(posts);
-
 		entries = filterAndSortEntries(entries, includes, sort);
+
+		if (options.limit && options.limit > 0) {
+			entries = entries.slice(0, options.limit);
+		}
 
 		const slimEntries = entries.map(([slug, post]) => [
 			slug,
@@ -55,6 +58,7 @@ export async function createNoutious(
 				slug,
 				title: post.title,
 				date: post.date,
+				updated: post.updated,
 				categories: post.categories,
 				tags: post.tags,
 				frontmatter: post.frontmatter,
@@ -96,7 +100,7 @@ export async function createNoutious(
 					: new Date(post.updated);
 		}
 
-		let entries = Object.entries(posts); // [slug, Post][]
+		let entries = Object.entries(posts);
 		entries = filterAndSortEntries(entries, {}, sort);
 
 		const idx = entries.findIndex(([key]) => key === slug);
@@ -107,7 +111,6 @@ export async function createNoutious(
 
 		const post = entries[idx][1];
 
-		// Convert entry => Surroundings
 		const toSurround = (
 			entry?: [string, Post]
 		): Surroundings | undefined =>

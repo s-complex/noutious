@@ -8,6 +8,7 @@ export interface NoutiousConfig {
 export interface PostSlim {
 	title: string;
 	date: Date;
+	updated: Date;
 	categories?: string | string[];
 	tags?: string[];
 	frontmatter: Record<string, any>;
@@ -16,7 +17,6 @@ export interface PostSlim {
 
 export interface Post extends PostSlim {
 	source: string;
-	updated: Date;
 	content: string;
 	raw: string;
 }
@@ -36,4 +36,5 @@ export interface Data {
 export interface PostsFilterOptions {
 	sort?: { date?: 1 | -1 };
 	includes?: Record<string, any>;
+	limit?: number;
 }
