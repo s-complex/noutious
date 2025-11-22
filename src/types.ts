@@ -21,6 +21,11 @@ export interface Post extends PostSlim {
 	raw: string;
 }
 
+export interface Surroundings {
+	slug: string;
+	title: string;
+}
+
 export interface Data {
 	generator: string;
 	posts: Record<string, Post>;

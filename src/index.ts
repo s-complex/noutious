@@ -1,6 +1,6 @@
 import { glob } from 'tinyglobby';
 import { persistData } from './persist';
-import { NoutiousConfig, Post, PostsFilterOptions, PostSlim } from './types';
+import { NoutiousConfig, Post, PostsFilterOptions, PostSlim, Surroundings } from './types';
 import { writeConfig } from './utils/config';
 import { transformPosts, transformTaxonomies } from './utils/transform';
 import { filterAndSortEntries } from './utils/sort';
@@ -8,16 +8,11 @@ import { filterAndSortEntries } from './utils/sort';
 export async function createNoutious(
 	config: NoutiousConfig
 ): Promise<{
-	queryPosts: (
-		options?: PostsFilterOptions
-	) => Promise<Record<string, PostSlim>>;
+	queryPosts: (options?: PostsFilterOptions) => Promise<any>;
 	queryCategories: () => Promise<string[]>;
 	queryTags: () => Promise<string[]>;
-	queryPost: (
-		slug: string,
-		options?: { sort?: { date?: 1 | -1 } }
-	) => Promise<{ post?: Post; prev?: Post; next?: Post }>;
-}> {
+	queryPost: (slug: string, options?: { sort?: { date?: 1 | -1; }; }) => Promise<{ post?: Post; prev?: Surroundings; next?: Surroundings; }>;
+}>{
 	writeConfig(config);
 	let fileList: string[];
 
@@ -78,7 +73,7 @@ export async function createNoutious(
 	async function queryPost(
 		slug: string,
 		options: { sort?: { date?: 1 | -1 } } = {}
-	): Promise<{ post?: Post; prev?: Post; next?: Post }> {
+	): Promise<{ post?: Post; prev?: Surroundings; next?: Surroundings }> {
 		const data = await persistData.read();
 		let posts = data?.posts ?? (await transformPosts(fileList));
 		const { sort = { date: -1 } } = options;
@@ -92,7 +87,7 @@ export async function createNoutious(
 					: new Date(post.updated);
 		}
 
-		let entries = Object.entries(posts);
+		let entries = Object.entries(posts); // [slug, Post][]
 		entries = filterAndSortEntries(entries, {}, sort);
 
 		const idx = entries.findIndex(([key]) => key === slug);
@@ -102,10 +97,18 @@ export async function createNoutious(
 		}
 
 		const post = entries[idx][1];
-		const prev = idx > 0 ? entries[idx - 1][1] : undefined;
-		const next = idx < entries.length - 1 ? entries[idx + 1][1] : undefined;
 
-		return { post, prev, next };
+		// Convert entry => Surroundings
+		const toSurround = (
+			entry?: [string, Post]
+		): Surroundings | undefined =>
+			entry ? { slug: entry[0], title: entry[1].title } : undefined;
+
+		return {
+			post,
+			prev: toSurround(entries[idx - 1]),
+			next: toSurround(entries[idx + 1]),
+		};
 	}
 
 	return { queryPosts, queryCategories, queryTags, queryPost };
