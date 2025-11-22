@@ -1,7 +1,7 @@
 {
 	"name": "noutious",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"packageManager": "pnpm@10.0.0",
 	"description": "A file-based content manage system, driven by Node.js.",
 	"repository": {

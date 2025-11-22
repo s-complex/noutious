@@ -1,6 +1,12 @@
 import { glob } from 'tinyglobby';
 import { persistData } from './persist';
-import { NoutiousConfig, Post, PostsFilterOptions, PostSlim, Surroundings } from './types';
+import {
+	NoutiousConfig,
+	Post,
+	PostsFilterOptions,
+	PostSlim,
+	Surroundings,
+} from './types';
 import { writeConfig } from './utils/config';
 import { transformPosts, transformTaxonomies } from './utils/transform';
 import { filterAndSortEntries } from './utils/sort';
@@ -11,8 +17,11 @@ export async function createNoutious(
 	queryPosts: (options?: PostsFilterOptions) => Promise<any>;
 	queryCategories: () => Promise<string[]>;
 	queryTags: () => Promise<string[]>;
-	queryPost: (slug: string, options?: { sort?: { date?: 1 | -1; }; }) => Promise<{ post?: Post; prev?: Surroundings; next?: Surroundings; }>;
-}>{
+	queryPost: (
+		slug: string,
+		options?: { sort?: { date?: 1 | -1 } }
+	) => Promise<{ post?: Post; prev?: Surroundings; next?: Surroundings }>;
+}> {
 	writeConfig(config);
 	let fileList: string[];
 
