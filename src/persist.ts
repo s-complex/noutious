@@ -15,11 +15,11 @@ export const persistData = {
 			filesToScan.push(`${config.baseDir}/blog/drafts`);
 		}
 		const fileList = await glob(filesToScan, { absolute: true });
-		
+
 		const [posts, { categories, tags }] = await Promise.all([
 			transformPosts(fileList),
-			transformTaxonomies(fileList)
-		])
+			transformTaxonomies(fileList),
+		]);
 		const result: Data = {
 			generator: `${pkg.name} v${pkg.version}`,
 			posts,
