@@ -9,14 +9,17 @@ import { consola } from 'consola';
 export const persistData = {
 	async write(): Promise<void> {
 		const config = readConfig();
+
 		const filesToScan = [`${config.baseDir}/blog/posts`];
 		if (config.draft) {
 			filesToScan.push(`${config.baseDir}/blog/drafts`);
 		}
 		const fileList = await glob(filesToScan, { absolute: true });
-		const posts = await transformPosts(fileList);
-		const { categories, tags } = await transformTaxonomies(fileList);
-
+		
+		const [posts, { categories, tags }] = await Promise.all([
+			transformPosts(fileList),
+			transformTaxonomies(fileList)
+		])
 		const result: Data = {
 			generator: `${pkg.name} v${pkg.version}`,
 			posts,
