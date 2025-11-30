@@ -20,10 +20,10 @@ Then create an instance:
 import { createNoutious } from 'noutious';
 
 const noutious = await createNoutious({
-	baseDir: './', // required
-	persist: false,
-	draft: false,
-	excerpt: '<!-- more -->',
+	baseDir: './', // required, where noutious works
+	persist: false, // pre-process data at ${baseDir}/data.json and read data from this file
+	draft: false, // draft mode
+	excerpt: '<!-- more -->', // excerpt mark
 });
 ```
 
@@ -36,6 +36,7 @@ const posts = await noutious.queryPosts({
 	// options
 	sort: { date: -1 }, // sort posts by date, value: 1 | -1
 	include: { categories: 'Noutious' }, // filter posts by specific front-matter value
+	limit: 5, // limit posts query amount
 });
 ```
 
@@ -57,7 +58,7 @@ const tags = await noutious.queryTags();
 const { post, prev, next } = await noutious.queryPost(
 	// query by slug
 	'hello-world',
-	// sort posts by date, but for query previous post and next post.
+	// sort posts by date, for query previous post and next post.
 	{ sort: { date: -1 } }
 );
 ```
