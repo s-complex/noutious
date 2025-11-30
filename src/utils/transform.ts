@@ -12,7 +12,7 @@ export async function transformPosts(fileList: string[]): Promise<Record<string,
 		const [raw, stats] = await Promise.all([readFile(path, 'utf-8'), stat(path)]);
 
 		const { content, data } = matter(raw);
-		const { title, date, categories, tags, description, ...frontmatter } = data;
+		const { title, date, categories, tags, description, updated, ...frontmatter } = data;
 
 		const excerpt = content.includes(config.excerpt!)
 			? content.split(config.excerpt!)[0].trim()
@@ -22,7 +22,7 @@ export async function transformPosts(fileList: string[]): Promise<Record<string,
 			source: path,
 			title,
 			date: new Date(date),
-			updated: new Date(stats.mtime),
+			updated: updated || new Date(stats.mtime),
 			categories,
 			tags,
 			excerpt: description || excerpt,
