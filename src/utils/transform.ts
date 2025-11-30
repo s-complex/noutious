@@ -4,21 +4,15 @@ import matter from 'gray-matter';
 import { parse } from 'pathe';
 import { readConfig } from './config';
 
-export async function transformPosts(
-	fileList: string[]
-): Promise<Record<string, Post>> {
+export async function transformPosts(fileList: string[]): Promise<Record<string, Post>> {
 	const posts: Record<string, Post> = {};
 	const config = readConfig();
 
 	for (const path of fileList) {
-		const [raw, stats] = await Promise.all([
-			readFile(path, 'utf-8'),
-			stat(path),
-		]);
+		const [raw, stats] = await Promise.all([readFile(path, 'utf-8'), stat(path)]);
 
 		const { content, data } = matter(raw);
-		const { title, date, categories, tags, description, ...frontmatter } =
-			data;
+		const { title, date, categories, tags, description, ...frontmatter } = data;
 
 		const excerpt = content.includes(config.excerpt!)
 			? content.split(config.excerpt!)[0].trim()

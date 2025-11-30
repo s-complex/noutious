@@ -20,17 +20,9 @@ export const persistData = {
 			transformPosts(fileList),
 			transformTaxonomies(fileList),
 		]);
-		const result: Data = {
-			generator: `${pkg.name} v${pkg.version}`,
-			posts,
-			categories,
-			tags,
-		};
+		const result: Data = { generator: `${pkg.name} v${pkg.version}`, posts, categories, tags };
 
-		await writeFile(
-			`${config.baseDir}/data.json`,
-			JSON.stringify(result, null, 2)
-		);
+		await writeFile(`${config.baseDir}/data.json`, JSON.stringify(result, null, 2));
 	},
 
 	async read(): Promise<Data | undefined> {

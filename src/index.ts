@@ -1,12 +1,6 @@
 import { glob } from 'tinyglobby';
 import { persistData } from './persist';
-import {
-	NoutiousConfig,
-	Post,
-	PostsFilterOptions,
-	PostSlim,
-	Surroundings,
-} from './types';
+import { NoutiousConfig, Post, PostsFilterOptions, PostSlim, Surroundings } from './types';
 import { writeConfig } from './utils/config';
 import { transformPosts, transformTaxonomies } from './utils/transform';
 import { filterAndSortEntries } from './utils/sort';
@@ -41,8 +35,7 @@ export async function createNoutious(
 		const { sort, includes = {} } = options;
 
 		for (const post of Object.values(posts)) {
-			post.date =
-				post.date instanceof Date ? post.date : new Date(post.date);
+			post.date = post.date instanceof Date ? post.date : new Date(post.date);
 		}
 
 		let entries = Object.entries(posts);
@@ -71,9 +64,7 @@ export async function createNoutious(
 
 	async function queryCategories(): Promise<string[]> {
 		const data = await persistData.read();
-		let categories =
-			data?.categories ??
-			(await transformTaxonomies(fileList)).categories;
+		let categories = data?.categories ?? (await transformTaxonomies(fileList)).categories;
 		return categories;
 	}
 
@@ -92,12 +83,8 @@ export async function createNoutious(
 		const { sort = { date: -1 } } = options;
 
 		for (const post of Object.values(posts)) {
-			post.date =
-				post.date instanceof Date ? post.date : new Date(post.date);
-			post.updated =
-				post.updated instanceof Date
-					? post.updated
-					: new Date(post.updated);
+			post.date = post.date instanceof Date ? post.date : new Date(post.date);
+			post.updated = post.updated instanceof Date ? post.updated : new Date(post.updated);
 		}
 
 		let entries = Object.entries(posts);
@@ -111,16 +98,10 @@ export async function createNoutious(
 
 		const post = entries[idx][1];
 
-		const toSurround = (
-			entry?: [string, Post]
-		): Surroundings | undefined =>
+		const toSurround = (entry?: [string, Post]): Surroundings | undefined =>
 			entry ? { slug: entry[0], title: entry[1].title } : undefined;
 
-		return {
-			post,
-			prev: toSurround(entries[idx - 1]),
-			next: toSurround(entries[idx + 1]),
-		};
+		return { post, prev: toSurround(entries[idx - 1]), next: toSurround(entries[idx + 1]) };
 	}
 
 	return { queryPosts, queryCategories, queryTags, queryPost };
