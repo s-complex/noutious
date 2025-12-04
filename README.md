@@ -55,7 +55,7 @@ const tags = await noutious.queryTags();
 ### Query specific posts
 
 ```typescript
-const { post, prev, next } = await noutious.queryPost(
+const post = await noutious.queryPost(
 	// query by slug
 	'hello-world',
 	// sort posts by date, for query previous post and next post.

@@ -15,15 +15,16 @@ export interface PostSlim {
 	excerpt?: string;
 }
 
+export interface Surroundings {
+	slug: string;
+	title: string;
+}
+
 export interface Post extends PostSlim {
 	source: string;
 	content: string;
 	raw: string;
-}
-
-export interface Surroundings {
-	slug: string;
-	title: string;
+	surroundings?: { prev?: Surroundings; next?: Surroundings };
 }
 
 export interface Data {
