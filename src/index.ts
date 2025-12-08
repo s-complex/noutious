@@ -57,7 +57,10 @@ export async function createNoutious(
 		return tags;
 	}
 
-	async function queryPost(slug: string, options: { sort?: { date?: 1 | -1 } } = {}): Promise<Post> {
+	async function queryPost(
+		slug: string,
+		options: { sort?: { date?: 1 | -1 } } = {}
+	): Promise<Post> {
 		const data = await persistData.read();
 		let posts = data?.posts ?? (await transformPosts(fileList));
 		const { sort = { date: -1 } } = options;
