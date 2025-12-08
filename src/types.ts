@@ -5,26 +5,22 @@ export interface NoutiousConfig {
 	excerpt?: string;
 }
 
-export interface PostSlim {
+export interface Post {
 	title: string;
 	date: Date;
-	updated: Date;
 	categories?: string | string[];
 	tags?: string[];
 	frontmatter: Record<string, any>;
 	excerpt?: string;
+	source: string;
+	content: string;
+	raw: string;
+	surroundings?: { prev?: Surroundings; next?: Surroundings };
 }
 
 export interface Surroundings {
 	slug: string;
 	title: string;
-}
-
-export interface Post extends PostSlim {
-	source: string;
-	content: string;
-	raw: string;
-	surroundings?: { prev?: Surroundings; next?: Surroundings };
 }
 
 export interface Data {

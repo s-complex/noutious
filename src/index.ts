@@ -1,6 +1,6 @@
 import { glob } from 'tinyglobby';
 import { persistData } from './persist';
-import { NoutiousConfig, Post, PostsFilterOptions, PostSlim, Surroundings } from './types';
+import { NoutiousConfig, Post, PostsFilterOptions, Surroundings } from './types';
 import { writeConfig } from './utils/config';
 import { transformPosts, transformTaxonomies } from './utils/transform';
 import { filterAndSortEntries } from './utils/sort';
@@ -42,21 +42,7 @@ export async function createNoutious(
 			entries = entries.slice(0, options.limit);
 		}
 
-		const slimEntries = entries.map(([slug, post]) => [
-			slug,
-			{
-				slug,
-				title: post.title,
-				date: post.date,
-				updated: post.updated,
-				categories: post.categories,
-				tags: post.tags,
-				frontmatter: post.frontmatter,
-				excerpt: post.excerpt,
-			} as PostSlim,
-		]);
-
-		return Object.fromEntries(slimEntries);
+		return Object.fromEntries(entries);
 	}
 
 	async function queryCategories(): Promise<string[]> {
@@ -71,15 +57,10 @@ export async function createNoutious(
 		return tags;
 	}
 
-	async function queryPost(slug: string, options: { sort?: { date?: 1 | -1 } } = {}) {
+	async function queryPost(slug: string, options: { sort?: { date?: 1 | -1 } } = {}): Promise<Post> {
 		const data = await persistData.read();
 		let posts = data?.posts ?? (await transformPosts(fileList));
 		const { sort = { date: -1 } } = options;
-
-		for (const post of Object.values(posts)) {
-			post.date = post.date instanceof Date ? post.date : new Date(post.date);
-			post.updated = post.updated instanceof Date ? post.updated : new Date(post.updated);
-		}
 
 		let entries = Object.entries(posts);
 		entries = filterAndSortEntries(entries, {}, sort);
