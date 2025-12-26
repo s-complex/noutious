@@ -1,0 +1,113 @@
+import { describe, test, expect } from 'vitest';
+
+import { readFile } from 'node:fs/promises';
+import { createNoutious } from '../src/index';
+import type { NoutiousConfig } from '../src/types';
+import pkg from '../package.json';
+
+const fixtureDir = './test/fixture';
+const noutiousConfig: NoutiousConfig = { baseDir: fixtureDir };
+
+describe('noutious', () => {
+	test('query posts', async () => {
+		const noutious = await createNoutious({ ...noutiousConfig });
+		const posts = await noutious.queryPosts();
+		expect(posts).toEqual({
+			'hello-world': {
+				source: 'D:/Projects/app/noutious/test/fixture/blog/posts/hello-world.md',
+				title: 'Hello World',
+				date: new Date('2025-12-25T15:27:36.000Z'),
+				categories: 'Default',
+				tags: 'Hello',
+				excerpt: 'This is post excerpt.',
+				frontmatter: {},
+				content:
+					'\r\nThis is post excerpt.\r\n\r\n\r\n\r\n...and the next is post content.\r\n',
+				raw:
+					'---\r\n' +
+					'title: Hello World\r\n' +
+					'date: 2025-12-25 15:27:36\r\n' +
+					'categories: Default\r\n' +
+					'tags: Hello\r\n' +
+					'---\r\n' +
+					'\r\n' +
+					'This is post excerpt.\r\n' +
+					'\r\n' +
+					'<!-- more -->\r\n' +
+					'\r\n' +
+					'...and the next is post content.\r\n',
+			},
+		});
+	});
+
+	test('query categories', async () => {
+		const noutious = await createNoutious({ ...noutiousConfig });
+		const categories = await noutious.queryCategories();
+		expect(categories).toEqual(['Default']);
+	});
+
+	test('query tags', async () => {
+		const noutious = await createNoutious({ ...noutiousConfig });
+		const tags = await noutious.queryTags();
+		expect(tags).toEqual(['Hello']);
+	});
+
+	test('show drafts', async () => {
+		const noutious = await createNoutious({ ...noutiousConfig, draft: true });
+		const post = await noutious.queryPost('test');
+		expect(post).toEqual({
+			source: 'D:/Projects/app/noutious/test/fixture/blog/drafts/test.md',
+			title: 'Test Post',
+			date: new Date('2025-12-25T15:31:17.000Z'),
+			categories: undefined,
+			tags: undefined,
+			excerpt: 'You can only see this post when draft mode is on.',
+			frontmatter: {},
+			content: '\r\n' + 'You can only see this post when draft mode is on.\r\n',
+			raw:
+				'---\r\n' +
+				'title: Test Post\r\n' +
+				'date: 2025-12-25 15:31:17\r\n' +
+				'---\r\n' +
+				'\r\n' +
+				'You can only see this post when draft mode is on.\r\n',
+			surroundings: { prev: undefined, next: { slug: 'hello-world', title: 'Hello World' } },
+		});
+	});
+
+	test('generate persist data', async () => {
+		await createNoutious({ ...noutiousConfig, persist: true });
+		const persistData = await readFile(`${fixtureDir}/data.json`, 'utf-8');
+		expect(JSON.parse(persistData)).toEqual({
+			generator: `${pkg.name} v${pkg.version}`,
+			posts: {
+				'hello-world': {
+					source: 'D:/Projects/app/noutious/test/fixture/blog/posts/hello-world.md',
+					title: 'Hello World',
+					date: '2025-12-25T15:27:36.000Z',
+					categories: 'Default',
+					tags: 'Hello',
+					excerpt: 'This is post excerpt.',
+					frontmatter: {},
+					content:
+						'\r\nThis is post excerpt.\r\n\r\n\r\n\r\n...and the next is post content.\r\n',
+					raw:
+						'---\r\n' +
+						'title: Hello World\r\n' +
+						'date: 2025-12-25 15:27:36\r\n' +
+						'categories: Default\r\n' +
+						'tags: Hello\r\n' +
+						'---\r\n' +
+						'\r\n' +
+						'This is post excerpt.\r\n' +
+						'\r\n' +
+						'<!-- more -->\r\n' +
+						'\r\n' +
+						'...and the next is post content.\r\n',
+				},
+			},
+			categories: ['Default'],
+			tags: ['Hello'],
+		});
+	});
+});
