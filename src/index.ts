@@ -2,16 +2,19 @@ import { glob } from 'tinyglobby';
 import { persistData } from './persist';
 import { NoutiousConfig, Post, PostsFilterOptions, Surroundings } from './types';
 import { writeConfig } from './utils/config';
-import { transformPosts, transformTaxonomies } from './utils/transform';
 import { filterAndSortEntries } from './utils/sort';
+import { queryData } from './data';
+import { consola } from 'consola';
 
 export async function createNoutious(
 	config: NoutiousConfig
 ): Promise<{
-	queryPosts: (options?: PostsFilterOptions) => Promise<any>;
+	queryPosts: (options?: PostsFilterOptions) => Promise<{
+		[k: string]: Post;
+	}>;
 	queryCategories: () => Promise<string[]>;
 	queryTags: () => Promise<string[]>;
-	queryPost: (slug: string, options?: { sort?: { date?: 1 | -1 } }) => Promise<Post>;
+	queryPost: (slug: string, options?: PostsFilterOptions) => Promise<Post>;
 }> {
 	writeConfig(config);
 	let fileList: string[];
@@ -27,8 +30,7 @@ export async function createNoutious(
 	}
 
 	async function queryPosts(options: PostsFilterOptions = {}) {
-		const data = await persistData.read();
-		let posts = data?.posts ?? (await transformPosts(fileList));
+		const posts = await queryData('posts', fileList) as Record<string, Post>
 		const { sort, includes = {} } = options;
 
 		for (const post of Object.values(posts)) {
@@ -46,24 +48,19 @@ export async function createNoutious(
 	}
 
 	async function queryCategories(): Promise<string[]> {
-		const data = await persistData.read();
-		let categories = data?.categories ?? (await transformTaxonomies(fileList)).categories;
-		return categories;
+		return await queryData('categories', fileList) as string[]
 	}
 
 	async function queryTags(): Promise<string[]> {
-		const data = await persistData.read();
-		let tags = data?.tags ?? (await transformTaxonomies(fileList)).tags;
-		return tags;
+		return await queryData('tags', fileList) as string[]
 	}
 
 	async function queryPost(
 		slug: string,
-		options: { sort?: { date?: 1 | -1 } } = {}
+		options: PostsFilterOptions = {}
 	): Promise<Post> {
-		const data = await persistData.read();
-		let posts = data?.posts ?? (await transformPosts(fileList));
-		const { sort = { date: -1 } } = options;
+		const posts = await queryData('posts', fileList) as Record<string, Post>
+		const { sort } = options;
 
 		let entries = Object.entries(posts);
 		entries = filterAndSortEntries(entries, {}, sort);
@@ -71,7 +68,7 @@ export async function createNoutious(
 		const idx = entries.findIndex(([key]) => key === slug);
 
 		if (idx === -1) {
-			throw new Error(`Post with slug "${slug}" not found`);
+			consola.error(new Error(`Post with slug "${slug}" not found`));
 		}
 
 		const post = entries[idx][1];

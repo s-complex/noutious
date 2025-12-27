@@ -71,7 +71,7 @@ describe('noutious', () => {
 				'---\r\n' +
 				'\r\n' +
 				'You can only see this post when draft mode is on.\r\n',
-			surroundings: { prev: undefined, next: { slug: 'hello-world', title: 'Hello World' } },
+			surroundings: { prev: undefined , next: { slug: 'hello-world', title: 'Hello World' } },
 		});
 	});
 
