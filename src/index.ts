@@ -9,9 +9,7 @@ import { consola } from 'consola';
 export async function createNoutious(
 	config: NoutiousConfig
 ): Promise<{
-	queryPosts: (options?: PostsFilterOptions) => Promise<{
-		[k: string]: Post;
-	}>;
+	queryPosts: (options?: PostsFilterOptions) => Promise<{ [k: string]: Post }>;
 	queryCategories: () => Promise<string[]>;
 	queryTags: () => Promise<string[]>;
 	queryPost: (slug: string, options?: PostsFilterOptions) => Promise<Post>;
@@ -30,7 +28,7 @@ export async function createNoutious(
 	}
 
 	async function queryPosts(options: PostsFilterOptions = {}) {
-		const posts = await queryData('posts', fileList) as Record<string, Post>
+		const posts = (await queryData('posts', fileList)) as Record<string, Post>;
 		const { sort, includes = {} } = options;
 
 		for (const post of Object.values(posts)) {
@@ -48,18 +46,15 @@ export async function createNoutious(
 	}
 
 	async function queryCategories(): Promise<string[]> {
-		return await queryData('categories', fileList) as string[]
+		return (await queryData('categories', fileList)) as string[];
 	}
 
 	async function queryTags(): Promise<string[]> {
-		return await queryData('tags', fileList) as string[]
+		return (await queryData('tags', fileList)) as string[];
 	}
 
-	async function queryPost(
-		slug: string,
-		options: PostsFilterOptions = {}
-	): Promise<Post> {
-		const posts = await queryData('posts', fileList) as Record<string, Post>
+	async function queryPost(slug: string, options: PostsFilterOptions = {}): Promise<Post> {
+		const posts = (await queryData('posts', fileList)) as Record<string, Post>;
 		const { sort } = options;
 
 		let entries = Object.entries(posts);
