@@ -1,4 +1,4 @@
-import { glob } from 'tinyglobby';
+import { scan } from './utils/scan';
 import { readConfig } from './utils/config';
 import { transformPosts, transformTaxonomies } from './utils/transform';
 import type { Data } from './types';
@@ -9,12 +9,7 @@ import { consola } from 'consola';
 export const persistData = {
 	async write(): Promise<void> {
 		const config = readConfig();
-
-		const filesToScan = [`${config.baseDir}/blog/posts`];
-		if (config.draft) {
-			filesToScan.push(`${config.baseDir}/blog/drafts`);
-		}
-		const fileList = await glob(filesToScan, { absolute: true });
+		const fileList = await scan();
 
 		const [posts, { categories, tags }] = await Promise.all([
 			transformPosts(fileList),

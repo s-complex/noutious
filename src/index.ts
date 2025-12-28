@@ -1,6 +1,5 @@
-import { glob } from 'tinyglobby';
 import { persistData } from './persist';
-import { NoutiousConfig, Post, PostsFilterOptions, Surroundings } from './types';
+import type { NoutiousConfig, Post, PostsFilterOptions, Surroundings } from './types';
 import { writeConfig } from './utils/config';
 import { filterAndSortEntries } from './utils/sort';
 import { queryData } from './data';
@@ -15,20 +14,13 @@ export async function createNoutious(
 	queryPost: (slug: string, options?: PostsFilterOptions) => Promise<Post>;
 }> {
 	writeConfig(config);
-	let fileList: string[];
 
 	if (config.persist) {
 		await persistData.write();
-	} else {
-		const filesToScan = [`${config.baseDir}/blog/posts`];
-		if (config.draft) {
-			filesToScan.push(`${config.baseDir}/blog/drafts`);
-		}
-		fileList = await glob(filesToScan, { absolute: true });
 	}
 
 	async function queryPosts(options: PostsFilterOptions = {}) {
-		const posts = (await queryData('posts', fileList)) as Record<string, Post>;
+		const posts = (await queryData('posts')) as Record<string, Post>;
 		const { sort, includes = {} } = options;
 
 		for (const post of Object.values(posts)) {
@@ -46,15 +38,15 @@ export async function createNoutious(
 	}
 
 	async function queryCategories(): Promise<string[]> {
-		return (await queryData('categories', fileList)) as string[];
+		return (await queryData('categories')) as string[];
 	}
 
 	async function queryTags(): Promise<string[]> {
-		return (await queryData('tags', fileList)) as string[];
+		return (await queryData('tags')) as string[];
 	}
 
 	async function queryPost(slug: string, options: PostsFilterOptions = {}): Promise<Post> {
-		const posts = (await queryData('posts', fileList)) as Record<string, Post>;
+		const posts = (await queryData('posts')) as Record<string, Post>;
 		const { sort } = options;
 
 		let entries = Object.entries(posts);

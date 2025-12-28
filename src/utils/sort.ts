@@ -1,6 +1,6 @@
 import type { Post } from '../types';
 
-export function getNestedValue(obj: any, path: string): any {
+function getNestedValue(obj: any, path: string): any {
 	return path.split('.').reduce((acc, key) => acc?.[key], obj);
 }
 

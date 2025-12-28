@@ -3,12 +3,12 @@ import { readConfig } from './utils/config';
 import { transformPosts, transformTaxonomies } from './utils/transform';
 import { existsSync } from 'node:fs';
 import type { Data, Post } from './types';
+import { scan } from './utils/scan';
 
 const DATA_PATH = `${readConfig().baseDir}/data.json`;
 
 export async function queryData(
-	queryType: 'posts' | 'categories' | 'tags',
-	fileList: string[]
+	queryType: 'posts' | 'categories' | 'tags'
 ): Promise<Record<string, Post> | string[]> {
 	const isPersistDataExists = existsSync(DATA_PATH);
 	let persistData: Data | null = null;
@@ -22,7 +22,9 @@ export async function queryData(
 		}
 	}
 
-	const taxonomies = transformTaxonomies(fileList);
+	const fileList = scan();
+
+	const taxonomies = transformTaxonomies(await fileList);
 
 	switch (queryType) {
 		case 'posts': {
@@ -30,7 +32,7 @@ export async function queryData(
 				return persistData.posts;
 			}
 
-			return await transformPosts(fileList);
+			return await transformPosts(await fileList);
 		}
 
 		case 'categories': {
