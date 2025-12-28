@@ -3,8 +3,7 @@ import { readConfig } from './utils/config';
 import { transformPosts, transformTaxonomies } from './utils/transform';
 import type { Data } from './types';
 import pkg from '../package.json';
-import { readFile, writeFile } from 'fs/promises';
-import { consola } from 'consola';
+import { readFile, writeFile } from 'node:fs/promises';
 
 export const persistData = {
 	async write(): Promise<void> {
@@ -23,14 +22,11 @@ export const persistData = {
 	async read(): Promise<Data | undefined> {
 		const config = readConfig();
 		const dataFilePath = `${config.baseDir}/data.json`;
-
-		if (config.persist) {
-			try {
-				const raw = await readFile(dataFilePath, 'utf-8');
-				return JSON.parse(raw) as Data;
-			} catch (e) {
-				consola.error(new Error(`${e}`));
-			}
+		try {
+			const raw = await readFile(dataFilePath, 'utf-8');
+			return JSON.parse(raw) as Data;
+		} catch {
+			return undefined;
 		}
 	},
 };
