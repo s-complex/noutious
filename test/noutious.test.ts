@@ -22,20 +22,20 @@ describe('noutious', () => {
 				excerpt: 'This is post excerpt.',
 				frontmatter: {},
 				content:
-					'\r\nThis is post excerpt.\r\n\r\n\r\n\r\n...and the next is post content.\r\n',
+					'\nThis is post excerpt.\n\n\n\n...and the next is post content.\n',
 				raw:
-					'---\r\n' +
-					'title: Hello World\r\n' +
-					'date: 2025-12-25 15:27:36\r\n' +
-					'categories: Default\r\n' +
-					'tags: Hello\r\n' +
-					'---\r\n' +
-					'\r\n' +
-					'This is post excerpt.\r\n' +
-					'\r\n' +
-					'<!-- more -->\r\n' +
-					'\r\n' +
-					'...and the next is post content.\r\n',
+					'---\n' +
+					'title: Hello World\n' +
+					'date: 2025-12-25 15:27:36\n' +
+					'categories: Default\n' +
+					'tags: Hello\n' +
+					'---\n' +
+					'\n' +
+					'This is post excerpt.\n' +
+					'\n' +
+					'<!-- more -->\n' +
+					'\n' +
+					'...and the next is post content.\n',
 			},
 		});
 	});
@@ -63,14 +63,14 @@ describe('noutious', () => {
 			tags: undefined,
 			excerpt: 'You can only see this post when draft mode is on.',
 			frontmatter: {},
-			content: '\r\n' + 'You can only see this post when draft mode is on.\r\n',
+			content: '\n' + 'You can only see this post when draft mode is on.\n',
 			raw:
-				'---\r\n' +
-				'title: Test Post\r\n' +
-				'date: 2025-12-25 15:31:17\r\n' +
-				'---\r\n' +
-				'\r\n' +
-				'You can only see this post when draft mode is on.\r\n',
+				'---\n' +
+				'title: Test Post\n' +
+				'date: 2025-12-25 15:31:17\n' +
+				'---\n' +
+				'\n' +
+				'You can only see this post when draft mode is on.\n',
 			surroundings: { prev: undefined, next: { slug: 'hello-world', title: 'Hello World' } },
 		});
 	});
@@ -90,20 +90,20 @@ describe('noutious', () => {
 					excerpt: 'This is post excerpt.',
 					frontmatter: {},
 					content:
-						'\r\nThis is post excerpt.\r\n\r\n\r\n\r\n...and the next is post content.\r\n',
+						'\nThis is post excerpt.\n\n\n\n...and the next is post content.\n',
 					raw:
-						'---\r\n' +
-						'title: Hello World\r\n' +
-						'date: 2025-12-25 15:27:36\r\n' +
-						'categories: Default\r\n' +
-						'tags: Hello\r\n' +
-						'---\r\n' +
-						'\r\n' +
-						'This is post excerpt.\r\n' +
-						'\r\n' +
-						'<!-- more -->\r\n' +
-						'\r\n' +
-						'...and the next is post content.\r\n',
+						'---\n' +
+						'title: Hello World\n' +
+						'date: 2025-12-25 15:27:36\n' +
+						'categories: Default\n' +
+						'tags: Hello\n' +
+						'---\n' +
+						'\n' +
+						'This is post excerpt.\n' +
+						'\n' +
+						'<!-- more -->\n' +
+						'\n' +
+						'...and the next is post content.\n',
 				},
 			},
 			categories: ['Default'],

@@ -1,21 +1,30 @@
 {
 	"name": "noutious",
-	"type": "module",
 	"version": "0.0.8",
 	"description": "A file-based content manage system, driven by Node.js.",
+	"keywords": [
+		"cms"
+	],
+	"homepage": "https://github.com/s-complex/noutious#readme",
+	"bugs": {
+		"url": "https://github.com/s-complex/noutious/issues"
+	},
+	"license": "MIT",
+	"author": "Restent Ou <i@gxres.net>",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/s-complex/noutious.git"
 	},
-	"keywords": [
-		"cms"
+	"files": [
+		"dist"
 	],
-	"author": "Restent Ou <i@gxres.net>",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/s-complex/noutious/issues"
+	"type": "module",
+	"main": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"exports": {
+		".": "./dist/index.mjs",
+		"./types": "./dist/types.d.mts"
 	},
-	"homepage": "https://github.com/s-complex/noutious#readme",
 	"scripts": {
 		"build": "obuild",
 		"stub": "obuild --stub",
@@ -24,15 +33,12 @@
 		"test": "vitest run",
 		"release": "pnpm lint:check && obuild && npm publish"
 	},
-	"main": "./dist/index.mjs",
-	"types": "./dist/index.d.mts",
-	"exports": {
-		".": "./dist/index.mjs",
-		"./types": "./dist/types.d.mts"
+	"dependencies": {
+		"consola": "^3.4.2",
+		"js-yaml": "^4.1.1",
+		"pathe": "^2.0.3",
+		"tinyglobby": "^0.2.15"
 	},
-	"files": [
-		"dist"
-	],
 	"devDependencies": {
 		"@types/js-yaml": "^4.0.9",
 		"@types/node": "^25.0.3",
@@ -41,11 +47,5 @@
 		"oxlint": "^1.35.0",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.16"
-	},
-	"dependencies": {
-		"consola": "^3.4.2",
-		"js-yaml": "^4.1.1",
-		"pathe": "^2.0.3",
-		"tinyglobby": "^0.2.15"
 	}
 }
