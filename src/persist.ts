@@ -22,6 +22,11 @@ export const persistData = {
 	async read(): Promise<Data | undefined> {
 		const config = readConfig();
 		const dataFilePath = `${config.baseDir}/data.json`;
+
+		if (!config.persist) {
+			return undefined;
+		}
+
 		try {
 			const raw = await readFile(dataFilePath, 'utf-8');
 			return JSON.parse(raw) as Data;

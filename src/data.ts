@@ -7,9 +7,9 @@ export async function queryData(
 	queryType: 'posts' | 'categories' | 'tags'
 ): Promise<Record<string, Post> | string[]> {
 	const persist = await persistData.read()
-	const fileList = scan();
+	const fileList = await scan();
 
-	const taxonomies = transformTaxonomies(await fileList);
+	const taxonomies = transformTaxonomies(fileList);
 
 	switch (queryType) {
 		case 'posts': {
@@ -17,7 +17,7 @@ export async function queryData(
 				return persist.posts;
 			}
 
-			return await transformPosts(await fileList);
+			return await transformPosts(fileList);
 		}
 
 		case 'categories': {
