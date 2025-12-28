@@ -20,7 +20,7 @@ export async function createNoutious(
 	}
 
 	async function queryPosts(options: PostsFilterOptions = {}) {
-		const posts = await queryData('posts') as Record<string, Post>;
+		const posts = (await queryData('posts')) as Record<string, Post>;
 		const { sort, includes = {} } = options;
 
 		for (const post of Object.values(posts)) {
@@ -38,15 +38,15 @@ export async function createNoutious(
 	}
 
 	async function queryCategories(): Promise<string[]> {
-		return await queryData('categories') as string[];
+		return (await queryData('categories')) as string[];
 	}
 
 	async function queryTags(): Promise<string[]> {
-		return await queryData('tags') as string[];
+		return (await queryData('tags')) as string[];
 	}
 
 	async function queryPost(slug: string, options: PostsFilterOptions = {}): Promise<Post> {
-		const posts = await queryData('posts') as Record<string, Post>;
+		const posts = (await queryData('posts')) as Record<string, Post>;
 		const { sort } = options;
 
 		let entries = Object.entries(posts);

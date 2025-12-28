@@ -1,5 +1,5 @@
 {
-  "generator": "noutious v0.0.8",
+  "generator": "noutious v0.0.9",
   "posts": {
     "hello-world": {
       "source": "D:/Projects/app/noutious/test/fixture/blog/posts/hello-world.md",

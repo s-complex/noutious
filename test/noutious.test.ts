@@ -21,8 +21,7 @@ describe('noutious', () => {
 				tags: 'Hello',
 				excerpt: 'This is post excerpt.',
 				frontmatter: {},
-				content:
-					'\nThis is post excerpt.\n\n\n\n...and the next is post content.\n',
+				content: '\nThis is post excerpt.\n\n\n\n...and the next is post content.\n',
 				raw:
 					'---\n' +
 					'title: Hello World\n' +
@@ -89,8 +88,7 @@ describe('noutious', () => {
 					tags: 'Hello',
 					excerpt: 'This is post excerpt.',
 					frontmatter: {},
-					content:
-						'\nThis is post excerpt.\n\n\n\n...and the next is post content.\n',
+					content: '\nThis is post excerpt.\n\n\n\n...and the next is post content.\n',
 					raw:
 						'---\n' +
 						'title: Hello World\n' +

@@ -1,6 +1,6 @@
 {
 	"name": "noutious",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "A file-based content manage system, driven by Node.js.",
 	"keywords": [
 		"cms"
@@ -31,7 +31,7 @@
 		"lint:check": "oxlint && oxfmt --check",
 		"lint:fix": "oxlint --fix && oxfmt",
 		"test": "vitest run",
-		"release": "pnpm lint:check && obuild && npm publish"
+		"release": "pnpm lint:check && pnpm test && obuild && npm publish"
 	},
 	"dependencies": {
 		"consola": "^3.4.2",

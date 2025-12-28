@@ -6,7 +6,7 @@ import { persistData } from './persist';
 export async function queryData(
 	queryType: 'posts' | 'categories' | 'tags'
 ): Promise<Record<string, Post> | string[]> {
-	const persist = await persistData.read()
+	const persist = await persistData.read();
 	const fileList = await scan();
 
 	const taxonomies = transformTaxonomies(fileList);
@@ -21,11 +21,7 @@ export async function queryData(
 		}
 
 		case 'categories': {
-			if (
-				persist &&
-				Array.isArray(persist.categories) &&
-				persist.categories.length > 0
-			) {
+			if (persist && Array.isArray(persist.categories) && persist.categories.length > 0) {
 				return persist.categories;
 			}
 
