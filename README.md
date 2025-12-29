@@ -4,7 +4,7 @@ A file-based content manage system, driven by Node.js. This project was inspired
 
 > [!IMPORTANT]
 >
-> This project is still in development, bugs and mistakes are everywhere. **DO NOT USE IT IN PRODUCTION.**
+> This project may involve breaking changes, please think **carefully** before using it in production.
 
 ## Quick Start
 
@@ -40,17 +40,38 @@ const posts = await noutious.queryPosts({
 });
 ```
 
+Type:
+
+```ts
+interface Post {
+	title: string;
+	date: Date;
+	categories?: string | string[];
+	tags?: string[];
+	frontmatter: Record<string, any>;
+	excerpt?: string;
+	source: string;
+	content: string;
+	raw: string;
+	surroundings?: { prev?: Surroundings; next?: Surroundings };
+}
+```
+
 ### Query all categories
 
 ```typescript
 const categories = await noutious.queryCategories();
 ```
 
+Type: `string | string[]`
+
 ### Query all tags
 
 ```typescript
 const tags = await noutious.queryTags();
 ```
+
+Type: `string | string[]`
 
 ### Query specific posts
 
@@ -62,6 +83,32 @@ const post = await noutious.queryPost(
 	{ sort: { date: -1 } }
 );
 ```
+
+Type:
+
+```ts
+interface Post {
+	title: string;
+	date: Date;
+	categories?: string | string[];
+	tags?: string[];
+	frontmatter: Record<string, any>;
+	excerpt?: string;
+	source: string;
+	content: string;
+	raw: string;
+	surroundings?: { prev?: Surroundings; next?: Surroundings };
+}
+```
+
+## Local Development
+
+> Consider using the latest or previous version of Node.js.
+
+1. Clone this repo;
+2. Install Node.js;
+3. Install pnpm (as package manager);
+4. Install dependencies (by running `pnpm i`).
 
 ## License
 
