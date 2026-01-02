@@ -7,6 +7,7 @@ const defaultConfig: NoutiousConfig = {
 	persist: false,
 	draft: false,
 	excerpt: '<!-- more -->',
+	timeZone: 'Asia/Shanghai',
 };
 
 export function writeConfig(_config: NoutiousConfig): void {

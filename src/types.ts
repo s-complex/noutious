@@ -3,6 +3,7 @@ export interface NoutiousConfig {
 	persist?: boolean;
 	draft?: boolean;
 	excerpt?: string;
+	timeZone?: string;
 }
 
 export interface Post {

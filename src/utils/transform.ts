@@ -2,8 +2,12 @@ import { readFile } from 'node:fs/promises';
 import type { Post } from '../types';
 import { fmParser } from './fmParser';
 import { parse } from 'pathe';
+import { toZonedTime } from 'date-fns-tz';
 
-export async function transformPosts(fileList: string[]): Promise<Record<string, Post>> {
+export async function transformPosts(
+	fileList: string[],
+	timeZone: string
+): Promise<Record<string, Post>> {
 	const posts: Record<string, Post> = {};
 
 	const results = await Promise.all(
@@ -17,7 +21,7 @@ export async function transformPosts(fileList: string[]): Promise<Record<string,
 				post: {
 					source: path,
 					title,
-					date: new Date(date),
+					date: toZonedTime(date, timeZone),
 					categories,
 					tags,
 					excerpt: description || excerpt,
