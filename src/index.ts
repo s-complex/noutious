@@ -26,7 +26,8 @@ export async function createNoutious(
 		const entries = Object.entries(posts);
 		const sorted = filterAndSortEntries(entries, includes, sort);
 
-		const limited = options.limit && options.limit > 0 ? sorted.slice(0, options.limit) : sorted;
+		const limited =
+			options.limit && options.limit > 0 ? sorted.slice(0, options.limit) : sorted;
 
 		return Object.fromEntries(limited);
 	}
