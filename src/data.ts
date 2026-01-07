@@ -13,15 +13,13 @@ export async function queryData(
 
 	const taxonomies = transformTaxonomies(fileList);
 
-	const timeZone = config.timeZone && config.timeZone.trim() ? config.timeZone : 'Asia/Shanghai';
-
 	switch (queryType) {
 		case 'posts': {
 			if (persist && persist.posts && Object.keys(persist.posts).length > 0) {
 				return persist.posts;
 			}
 
-			return await transformPosts(fileList, timeZone);
+			return await transformPosts(fileList, config.timeZone);
 		}
 
 		case 'categories': {

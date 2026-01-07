@@ -10,11 +10,8 @@ export const persistData = {
 		const config = readConfig();
 		const fileList = await scan();
 
-		const timeZone =
-			config.timeZone && config.timeZone.trim() ? config.timeZone : 'Asia/Shanghai';
-
 		const [posts, { categories, tags }] = await Promise.all([
-			transformPosts(fileList, timeZone),
+			transformPosts(fileList, config.timeZone),
 			transformTaxonomies(fileList),
 		]);
 		const result: Data = { generator: `${pkg.name} v${pkg.version}`, posts, categories, tags };
