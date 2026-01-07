@@ -1,14 +1,14 @@
 export interface NoutiousConfig {
 	baseDir: string;
-	persist?: boolean;
-	draft?: boolean;
-	excerpt?: string;
-	timeZone?: string;
+	persist: boolean;
+	draft: boolean;
+	excerpt: string;
+	timeZone: string;
 }
 
 export interface Post {
 	title: string;
-	date: Date | string;
+	date: string;
 	categories?: string | string[];
 	tags?: string[];
 	frontmatter: Record<string, any>;

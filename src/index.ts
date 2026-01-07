@@ -6,16 +6,16 @@ import { queryData } from './data';
 import { consola } from 'consola';
 
 export async function createNoutious(
-	config: NoutiousConfig
+	config?: NoutiousConfig
 ): Promise<{
 	queryPosts: (options?: PostsFilterOptions) => Promise<{ [k: string]: Post }>;
 	queryCategories: () => Promise<string[]>;
 	queryTags: () => Promise<string[]>;
 	queryPost: (slug: string, options?: PostsFilterOptions) => Promise<Post>;
 }> {
-	writeConfig(config);
+	writeConfig(config!);
 
-	if (config.persist) {
+	if (config?.persist) {
 		await persistData.write();
 	}
 
