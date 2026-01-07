@@ -1,18 +1,22 @@
 {
-	"generator": "noutious v0.0.9",
-	"posts": {
-		"hello-world": {
-			"source": "D:/Projects/app/noutious/test/fixture/blog/posts/hello-world.md",
-			"title": "Hello World",
-			"date": "2025-12-25T15:27:36.000Z",
-			"categories": "Default",
-			"tags": "Hello",
-			"excerpt": "This is post excerpt.",
-			"frontmatter": {},
-			"content": "\nThis is post excerpt.\n\n\n\n...and the next is post content.\n",
-			"raw": "---\ntitle: Hello World\ndate: 2025-12-25 15:27:36\ncategories: Default\ntags: Hello\n---\n\nThis is post excerpt.\n\n<!-- more -->\n\n...and the next is post content.\n"
-		}
-	},
-	"categories": ["Default"],
-	"tags": ["Hello"]
+  "generator": "noutious v0.1.0",
+  "posts": {
+    "hello-world": {
+      "source": "D:/Projects/app/noutious/test/fixture/blog/posts/hello-world.md",
+      "title": "Hello World",
+      "date": "2025-12-25T15:27:36+08:00",
+      "categories": "Default",
+      "tags": "Hello",
+      "excerpt": "This is post excerpt.",
+      "frontmatter": {},
+      "content": "\nThis is post excerpt.\n\n\n\n...and the next is post content.\n",
+      "raw": "---\ntitle: Hello World\ndate: 2025-12-25 15:27:36\ncategories: Default\ntags: Hello\n---\n\nThis is post excerpt.\n\n<!-- more -->\n\n...and the next is post content.\n"
+    }
+  },
+  "categories": [
+    "Default"
+  ],
+  "tags": [
+    "Hello"
+  ]
 }

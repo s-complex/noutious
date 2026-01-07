@@ -6,7 +6,7 @@ import type { NoutiousConfig } from '../src/types';
 import pkg from '../package.json';
 
 const fixtureDir = './test/fixture';
-const noutiousConfig: NoutiousConfig = { baseDir: fixtureDir };
+const noutiousConfig: NoutiousConfig = { baseDir: fixtureDir, timeZone: 'Asia/Shanghai' };
 
 describe('noutious', () => {
 	test('query posts', async () => {
@@ -16,7 +16,7 @@ describe('noutious', () => {
 			'hello-world': {
 				source: 'D:/Projects/app/noutious/test/fixture/blog/posts/hello-world.md',
 				title: 'Hello World',
-				date: new Date('2025-12-25T15:27:36.000Z'),
+				date: '2025-12-25T15:27:36+08:00',
 				categories: 'Default',
 				tags: 'Hello',
 				excerpt: 'This is post excerpt.',
@@ -57,7 +57,7 @@ describe('noutious', () => {
 		expect(post).toEqual({
 			source: 'D:/Projects/app/noutious/test/fixture/blog/drafts/test.md',
 			title: 'Test Post',
-			date: new Date('2025-12-25T15:31:17.000Z'),
+			date: '2025-12-25T15:31:17+08:00',
 			categories: undefined,
 			tags: undefined,
 			excerpt: 'You can only see this post when draft mode is on.',
@@ -83,7 +83,7 @@ describe('noutious', () => {
 				'hello-world': {
 					source: 'D:/Projects/app/noutious/test/fixture/blog/posts/hello-world.md',
 					title: 'Hello World',
-					date: '2025-12-25T15:27:36.000Z',
+					date: '2025-12-25T15:27:36+08:00',
 					categories: 'Default',
 					tags: 'Hello',
 					excerpt: 'This is post excerpt.',

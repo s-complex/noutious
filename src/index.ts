@@ -23,18 +23,12 @@ export async function createNoutious(
 		const posts = (await queryData('posts')) as Record<string, Post>;
 		const { sort, includes = {} } = options;
 
-		for (const post of Object.values(posts)) {
-			post.date = post.date instanceof Date ? post.date : new Date(post.date);
-		}
+		const entries = Object.entries(posts);
+		const sorted = filterAndSortEntries(entries, includes, sort);
 
-		let entries = Object.entries(posts);
-		entries = filterAndSortEntries(entries, includes, sort);
+		const limited = options.limit && options.limit > 0 ? sorted.slice(0, options.limit) : sorted;
 
-		if (options.limit && options.limit > 0) {
-			entries = entries.slice(0, options.limit);
-		}
-
-		return Object.fromEntries(entries);
+		return Object.fromEntries(limited);
 	}
 
 	async function queryCategories(): Promise<string[]> {

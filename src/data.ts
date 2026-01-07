@@ -21,7 +21,7 @@ export async function queryData(
 				return persist.posts;
 			}
 
-			return await transformPosts(fileList, config.timeZone ?? timeZone);
+			return await transformPosts(fileList, timeZone);
 		}
 
 		case 'categories': {

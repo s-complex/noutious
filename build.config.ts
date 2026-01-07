@@ -6,7 +6,7 @@ export default defineBuildConfig({
 			type: 'bundle',
 			input: ['./src/index.ts'],
 			minify: true,
-			rolldown: { external: ['consola', 'js-yaml', 'tinyglobby', 'pathe'] },
+			rolldown: { external: ['consola', 'date-fns-tz', 'js-yaml', 'pathe', 'tinyglobby'] },
 		},
 		{ type: 'bundle', input: './src/types.ts', dts: { emitDtsOnly: true } },
 	],

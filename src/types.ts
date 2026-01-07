@@ -8,7 +8,7 @@ export interface NoutiousConfig {
 
 export interface Post {
 	title: string;
-	date: Date;
+	date: Date | string;
 	categories?: string | string[];
 	tags?: string[];
 	frontmatter: Record<string, any>;

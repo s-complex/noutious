@@ -22,10 +22,11 @@ export function filterAndSortEntries(
 	});
 
 	if (sort?.date) {
+		const timeOf = (p: Post) =>
+			p.date instanceof Date ? p.date.getTime() : new Date(p.date as string).getTime();
+
 		filtered.sort(([, a], [, b]) =>
-			sort.date === 1
-				? a.date.getTime() - b.date.getTime()
-				: b.date.getTime() - a.date.getTime()
+			sort.date === 1 ? timeOf(a) - timeOf(b) : timeOf(b) - timeOf(a)
 		);
 	}
 

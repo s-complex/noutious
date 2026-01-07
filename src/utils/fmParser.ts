@@ -1,4 +1,4 @@
-import { load } from 'js-yaml';
+import { load, FAILSAFE_SCHEMA } from 'js-yaml';
 import { readConfig } from './config';
 
 interface FrontMatterResult<T = any> {
@@ -18,7 +18,7 @@ export function fmParser<T = any>(content: string): FrontMatterResult<T> {
 	const isMatch = content.match(FRONTMATTER_RE);
 
 	if (isMatch) {
-		attributes = (load(isMatch[1]) as T) || ({} as T);
+		attributes = (load(isMatch[1], { schema: FAILSAFE_SCHEMA }) as T) || ({} as T);
 		body = content.slice(isMatch[0].length);
 	}
 

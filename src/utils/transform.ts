@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import type { Post } from '../types';
 import { fmParser } from './fmParser';
 import { parse } from 'pathe';
-import { toZonedTime } from 'date-fns-tz';
+import { formatInTimeZone } from 'date-fns-tz';
 
 export async function transformPosts(
 	fileList: string[],
@@ -21,7 +21,7 @@ export async function transformPosts(
 				post: {
 					source: path,
 					title,
-					date: toZonedTime(date, timeZone),
+					date: formatInTimeZone(date, timeZone, "yyyy-MM-dd'T'HH:mm:ssXXX"),
 					categories,
 					tags,
 					excerpt: description || excerpt,
