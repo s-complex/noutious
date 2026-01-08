@@ -9,9 +9,7 @@ A file-based content manage system, driven by Node.js. This project was inspired
 ## Quick Start
 
 ```shell
-$ npm install noutious
-$ yarn add noutious
-$ pnpm add noutious
+$ {npm / yarn / pnpm / bun} install noutious
 ```
 
 Then create an instance:
@@ -20,7 +18,7 @@ Then create an instance:
 import { createNoutious } from 'noutious';
 
 const noutious = await createNoutious({
-	baseDir: './', // required, where noutious works
+	baseDir: './', // where noutious works
 	persist: false, // pre-process data at ${baseDir}/data.json and read data from this file
 	draft: false, // draft mode
 	excerpt: '<!-- more -->', // excerpt mark
