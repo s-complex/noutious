@@ -1,8 +1,6 @@
 import type { NoutiousConfig } from '../types';
 
-let config: NoutiousConfig | undefined;
-
-const defaultConfig: NoutiousConfig = {
+let defaultConfig: NoutiousConfig = {
 	baseDir: './',
 	persist: false,
 	draft: false,
@@ -10,7 +8,11 @@ const defaultConfig: NoutiousConfig = {
 	timeZone: 'Asia/Shanghai',
 };
 
-export function processConfig(_config?: NoutiousConfig): NoutiousConfig {
-	if (_config) config = _config;
-	return { ...defaultConfig, ...config };
+let userConfig: Partial<NoutiousConfig> = {};
+
+export function processConfig(_config?: Partial<NoutiousConfig>): NoutiousConfig {
+	if (_config) {
+		userConfig = _config;
+	}
+	return { ...defaultConfig, ...userConfig };
 }

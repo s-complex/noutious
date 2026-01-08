@@ -6,7 +6,7 @@ import { queryData } from './data';
 import { consola } from 'consola';
 
 export async function createNoutious(
-	_config?: NoutiousConfig
+	_config?: Partial<NoutiousConfig>
 ): Promise<{
 	queryPosts: (options?: PostsFilterOptions) => Promise<{ [k: string]: Post }>;
 	queryCategories: () => Promise<string[]>;
