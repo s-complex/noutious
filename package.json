@@ -1,6 +1,6 @@
 {
 	"name": "noutious",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "A file-based content manage system, driven by Node.js.",
 	"keywords": [
 		"cms"
