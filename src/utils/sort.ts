@@ -22,8 +22,7 @@ export function filterAndSortEntries(
 	});
 
 	if (sort?.date) {
-		const timeOf = (p: Post) =>
-			new Date(p.date as string).getTime();
+		const timeOf = (p: Post) => new Date(p.date as string).getTime();
 
 		filtered.sort(([, a], [, b]) =>
 			sort.date === 1 ? timeOf(a) - timeOf(b) : timeOf(b) - timeOf(a)

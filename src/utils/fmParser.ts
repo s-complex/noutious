@@ -1,5 +1,5 @@
 import { load, FAILSAFE_SCHEMA } from 'js-yaml';
-import { readConfig } from './config';
+import { processConfig } from './config';
 
 interface FrontMatterResult<T = any> {
 	attributes: T;
@@ -13,7 +13,7 @@ export function fmParser<T = any>(content: string): FrontMatterResult<T> {
 	let attributes = {} as T;
 	let body = content;
 
-	const config = readConfig();
+	const config = processConfig();
 
 	const isMatch = content.match(FRONTMATTER_RE);
 
@@ -22,7 +22,7 @@ export function fmParser<T = any>(content: string): FrontMatterResult<T> {
 		body = content.slice(isMatch[0].length);
 	}
 
-	const [excerpt, rest] = body.split(config.excerpt!);
+	const [excerpt, rest] = body.split(config.excerpt);
 
 	return { attributes, excerpt: excerpt.trim(), body: rest ? excerpt + rest : body };
 }

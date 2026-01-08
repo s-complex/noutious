@@ -24,6 +24,7 @@ const noutious = await createNoutious({
 	persist: false, // pre-process data at ${baseDir}/data.json and read data from this file
 	draft: false, // draft mode
 	excerpt: '<!-- more -->', // excerpt mark
+	timeZone: 'Asia/Shanghai', // your timezone
 });
 ```
 

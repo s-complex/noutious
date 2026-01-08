@@ -1,7 +1,7 @@
 import { transformPosts, transformTaxonomies } from './utils/transform';
 import type { Post } from './types';
 import { scan } from './utils/scan';
-import { readConfig } from './utils/config';
+import { processConfig } from './utils/config';
 import { persistData } from './persist';
 
 export async function queryData(
@@ -9,7 +9,7 @@ export async function queryData(
 ): Promise<Record<string, Post> | string[]> {
 	const persist = await persistData.read();
 	const fileList = await scan();
-	const config = readConfig();
+	const config = processConfig();
 
 	const taxonomies = transformTaxonomies(fileList);
 

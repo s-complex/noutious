@@ -1,21 +1,21 @@
 import { persistData } from './persist';
 import type { NoutiousConfig, Post, PostsFilterOptions, Surroundings } from './types';
-import { writeConfig } from './utils/config';
+import { processConfig } from './utils/config';
 import { filterAndSortEntries } from './utils/sort';
 import { queryData } from './data';
 import { consola } from 'consola';
 
 export async function createNoutious(
-	config?: NoutiousConfig
+	_config?: NoutiousConfig
 ): Promise<{
 	queryPosts: (options?: PostsFilterOptions) => Promise<{ [k: string]: Post }>;
 	queryCategories: () => Promise<string[]>;
 	queryTags: () => Promise<string[]>;
 	queryPost: (slug: string, options?: PostsFilterOptions) => Promise<Post>;
 }> {
-	writeConfig(config!);
+	const config = processConfig(_config);
 
-	if (config?.persist) {
+	if (config.persist) {
 		await persistData.write();
 	}
 

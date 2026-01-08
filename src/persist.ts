@@ -1,5 +1,5 @@
 import { scan } from './utils/scan';
-import { readConfig } from './utils/config';
+import { processConfig } from './utils/config';
 import { transformPosts, transformTaxonomies } from './utils/transform';
 import type { Data } from './types';
 import pkg from '../package.json';
@@ -7,7 +7,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 export const persistData = {
 	async write(): Promise<void> {
-		const config = readConfig();
+		const config = processConfig();
 		const fileList = await scan();
 
 		const [posts, { categories, tags }] = await Promise.all([
@@ -20,7 +20,7 @@ export const persistData = {
 	},
 
 	async read(): Promise<Data | undefined> {
-		const config = readConfig();
+		const config = processConfig();
 		const dataFilePath = `${config.baseDir}/data.json`;
 
 		if (!config.persist) {

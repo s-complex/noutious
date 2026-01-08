@@ -10,10 +10,7 @@ const defaultConfig: NoutiousConfig = {
 	timeZone: 'Asia/Shanghai',
 };
 
-export function writeConfig(_config: NoutiousConfig): void {
-	config = _config;
-}
-
-export function readConfig(): NoutiousConfig {
+export function processConfig(_config?: NoutiousConfig): NoutiousConfig {
+	if (_config) config = _config;
 	return { ...defaultConfig, ...config };
 }
