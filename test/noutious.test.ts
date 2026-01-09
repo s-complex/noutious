@@ -6,7 +6,7 @@ import type { NoutiousConfig } from '../src/types';
 import pkg from '../package.json';
 
 const fixtureDir = './test/fixture';
-const noutiousConfig: NoutiousConfig = { baseDir: fixtureDir, timeZone: 'Asia/Shanghai' };
+const noutiousConfig: Partial<NoutiousConfig> = { baseDir: fixtureDir, timeZone: 'Asia/Shanghai' };
 
 describe('noutious', () => {
 	test('query posts', async () => {
@@ -70,7 +70,7 @@ describe('noutious', () => {
 				'---\n' +
 				'\n' +
 				'You can only see this post when draft mode is on.\n',
-			surroundings: { prev: undefined, next: { slug: 'hello-world', title: 'Hello World' } },
+			surroundings: { prev: { slug: 'hello-world', title: 'Hello World' }, next: undefined },
 		});
 	});
 
