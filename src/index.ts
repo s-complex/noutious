@@ -58,9 +58,11 @@ export async function createNoutious(
 		const toSurround = (entry?: [string, Post]): Surroundings | undefined =>
 			entry ? { slug: entry[0], title: entry[1].title } : undefined;
 
+		const isAscending = sort?.date === 1;
+
 		post.surroundings = {
-			prev: toSurround(entries[idx - 1]),
-			next: toSurround(entries[idx + 1]),
+			prev: toSurround(isAscending ? entries[idx - 1] : entries[idx + 1]),
+			next: toSurround(isAscending ? entries[idx + 1] : entries[idx - 1]),
 		};
 
 		return post;
