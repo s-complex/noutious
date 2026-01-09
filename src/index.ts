@@ -45,7 +45,9 @@ export async function createNoutious(
 		const { sort } = options;
 
 		let entries = Object.entries(posts);
-		entries = filterAndSortEntries(entries, {}, sort);
+
+		const sortForSurroundings = sort || { date: -1 };
+		entries = filterAndSortEntries(entries, {}, sortForSurroundings);
 
 		const idx = entries.findIndex(([key]) => key === slug);
 
