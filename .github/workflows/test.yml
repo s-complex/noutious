@@ -3,26 +3,26 @@ name: auto ci test
 on: [push, pull_request]
 
 jobs:
-  CI:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24]
-        pnpm-version: [10]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: Prepare pnpm ${{matrix.pnpm-version}}
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{matrix.pnpm-version}}
-      - name: Prepare Node.js ${{matrix.node-version}}
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{matrix.node-version}}
-      - name: Install dependencies
-        run: pnpm install
-      - name: Run lint check
-        run: pnpm lint:check
-      - name: Run tests
-        run: pnpm test
+    CI:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [24]
+                pnpm-version: [10]
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+            - name: Prepare pnpm ${{matrix.pnpm-version}}
+              uses: pnpm/action-setup@v4
+              with:
+                  version: ${{matrix.pnpm-version}}
+            - name: Prepare Node.js ${{matrix.node-version}}
+              uses: actions/setup-node@v6
+              with:
+                  node-version: ${{matrix.node-version}}
+            - name: Install dependencies
+              run: pnpm install
+            - name: Run lint check
+              run: pnpm lint:check
+            - name: Run tests
+              run: pnpm test
