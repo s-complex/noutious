@@ -19,7 +19,6 @@ export async function transformPosts(
 			return {
 				key: parse(path).name,
 				post: {
-					source: path,
 					title,
 					date: formatInTimeZone(date, timeZone, "yyyy-MM-dd'T'HH:mm:ssXXX"),
 					categories,

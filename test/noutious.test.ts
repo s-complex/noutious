@@ -14,7 +14,6 @@ describe('noutious', () => {
 		const posts = await noutious.queryPosts();
 		expect(posts).toEqual({
 			'hello-world': {
-				source: 'D:/Projects/app/noutious/test/fixture/blog/posts/hello-world.md',
 				title: 'Hello World',
 				date: '2025-12-25T15:27:36+08:00',
 				categories: 'Default',
@@ -55,7 +54,6 @@ describe('noutious', () => {
 		const noutious = await createNoutious({ ...noutiousConfig, draft: true });
 		const post = await noutious.queryPost('test');
 		expect(post).toEqual({
-			source: 'D:/Projects/app/noutious/test/fixture/blog/drafts/test.md',
 			title: 'Test Post',
 			date: '2025-12-25T15:31:17+08:00',
 			categories: undefined,
@@ -81,7 +79,6 @@ describe('noutious', () => {
 			generator: `${pkg.name} v${pkg.version}`,
 			posts: {
 				'hello-world': {
-					source: 'D:/Projects/app/noutious/test/fixture/blog/posts/hello-world.md',
 					title: 'Hello World',
 					date: '2025-12-25T15:27:36+08:00',
 					categories: 'Default',
